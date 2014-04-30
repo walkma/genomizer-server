@@ -3,11 +3,8 @@ package transfer.Test;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
 
 /**
  * Project: genomizer-Server
@@ -27,7 +24,7 @@ public class Receive implements Runnable {
     public Receive() {
 
         try {
-            welcome = new ServerSocket(7777);
+            welcome = new ServerSocket(8091);
 
 
         } catch (IOException e) {
@@ -36,6 +33,10 @@ public class Receive implements Runnable {
 
     }
 
+    public static void main(String[] args){
+        Receive r = new Receive();
+        r.run();
+    }
 
     @Override
     public void run() {
