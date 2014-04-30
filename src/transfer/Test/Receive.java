@@ -1,6 +1,7 @@
 package transfer.Test;
 
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
@@ -40,15 +41,20 @@ public class Receive implements Runnable {
 
     @Override
     public void run() {
-
-        try {
-            byte[] info = new byte[1000];
-            listen = welcome.accept();
-            DataInputStream stream = new DataInputStream(listen.getInputStream());
-            stream.read(info);
-            System.out.println(new String(info));
-        } catch (IOException e) {
-            e.printStackTrace();
+        while(true) {
+            try {
+                byte[] info = new byte[1000];
+                listen = welcome.accept();
+                DataInputStream stream = new DataInputStream(listen.getInputStream());
+                stream.read(info);
+                System.out.println(new String(info));
+                String answer = "<html><body>Hej anrop!</body></html>";
+                DataOutputStream out = new DataOutputStream(listen.getOutputStream());
+                out.write(answer.getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
+            }
         }
 
     }
