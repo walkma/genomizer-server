@@ -35,6 +35,7 @@ function uploadFile() {
 	$destination_path = dirname($_POST['path']) . "/";
 	$target_path = $destination_path . $file_name;
 	$hasExtension = checkHasExtension($target_path);
+#	$hasExtension = True;
 
 #	echo "Source=" .        basename($destination_path) . "<br />";
 #	echo "Destination=" .   $destination_path . "<br />";
