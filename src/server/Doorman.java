@@ -41,6 +41,7 @@ public class Doorman {
 		httpServer.createContext("/user", createHandler());
 		httpServer.createContext("/process", createHandler());
 		httpServer.createContext("/sysadm", createHandler());
+		httpServer.createContext("/transfer", createHandler());
 
 		httpServer.setExecutor(new Executor() {
 			@Override
@@ -83,6 +84,8 @@ public class Doorman {
 						break;
 					case "/sysadm":
 						exchange(exchange, CommandType.GET_ANNOTATION_PRIVILEGES_COMMAND);
+						break;
+					case "/trasnfer":
 						break;
 					}
 					break;
@@ -130,7 +133,8 @@ public class Doorman {
 					case "/annotation":
 						exchange(exchange, CommandType.ADD_ANNOTATION_FIELD_COMMAND);
 						break;
-
+					case "/trasnfer":
+						break;
 					}
 					break;
 
