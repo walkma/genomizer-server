@@ -64,14 +64,12 @@ public class TXTParser {
 			} else if (equalsSplit(line, "!Sample_data_processing")) {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!series_matrix_table_begin")) {
+				// Read the next line in the file,
+				// thats where the good stuff is
 				line = br.readLine();
-//				while (!equalsSplit(line, "!series_matrix_table_end")) {
-
-					if (br != null) {
-						addString(infoList, line);
-					}
-					line = br.readLine();
-//				}
+				if (br != null) {
+					addString(infoList, line);
+				}
 			} else if (equalsSplit(line, "!Sample_supplementary_file_1")) {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!Sample_supplementary_file_2")) {
