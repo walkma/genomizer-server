@@ -65,13 +65,13 @@ public class TXTParser {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!series_matrix_table_begin")) {
 				line = br.readLine();
-				while (!equalsSplit(line, "!series_matrix_table_end")) {
+//				while (!equalsSplit(line, "!series_matrix_table_end")) {
 
 					if (br != null) {
 						addString(infoList, line);
 					}
 					line = br.readLine();
-				}
+//				}
 			} else if (equalsSplit(line, "!Sample_supplementary_file_1")) {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!Sample_supplementary_file_2")) {
