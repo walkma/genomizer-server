@@ -141,6 +141,10 @@ public class CommandHandler {
 
 			newCommand = cmdFactory.createUpdateAnnotationPrivilegesCommand(json, parsedRest);
 
+		} else if (cmdt == CommandType.GET_TRANSFER_COMMAND) {
+
+			newCommand = cmdFactory.createGetTransferCommand(parsedRest);
+
 		}
 
 		return newCommand;

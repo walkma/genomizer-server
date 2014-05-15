@@ -16,6 +16,7 @@ import response.StatusCode;
 
 import authentication.Authenticate;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -85,7 +86,8 @@ public class Doorman {
 					case "/sysadm":
 						exchange(exchange, CommandType.GET_ANNOTATION_PRIVILEGES_COMMAND);
 						break;
-					case "/trasnfer":
+					case "/transfer":
+						exchange(exchange, CommandType.GET_TRANSFER_COMMAND);
 						break;
 					}
 					break;
@@ -133,7 +135,7 @@ public class Doorman {
 					case "/annotation":
 						exchange(exchange, CommandType.ADD_ANNOTATION_FIELD_COMMAND);
 						break;
-					case "/trasnfer":
+					case "/transfer":
 						break;
 					}
 					break;
@@ -231,6 +233,8 @@ public class Doorman {
 			exchange.sendResponseHeaders(response.getCode(), 0);
 
 		} else {
+//			Headers h = exchange.getResponseHeaders();
+//			h.set("Content-Type", "application/octet-stream");
 
 			body = response.getBody();
 			exchange.sendResponseHeaders(response.getCode(), body.getBytes().length);

@@ -1540,6 +1540,23 @@ public class DatabaseAccessor {
         return res;
     }
 
+    public String getFilePath(String fileID) throws SQLException {
+
+    	String query = "SELECT path FROM file WHERE (fileid = ?)";
+    	PreparedStatement ps = conn.prepareStatement(query);
+        ps.setInt(1, Integer.parseInt(fileID));
+
+        ResultSet rs = ps.executeQuery();
+
+        String res = null;
+        if (rs.next()) {
+        	res = rs.getString("path");
+        }
+        ps.close();
+
+    	return res;
+    }
+
     /**
      * Checks so that the annotation value is valid.
      *
