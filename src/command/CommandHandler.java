@@ -145,6 +145,10 @@ public class CommandHandler {
 
 			newCommand = cmdFactory.createGetTransferCommand(parsedRest);
 
+		} else if (cmdt == CommandType.POST_TRANSFER_COMMAND) {
+
+			newCommand = cmdFactory.createPostTransferCommand(parsedRest);
+
 		}
 
 		return newCommand;

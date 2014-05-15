@@ -292,4 +292,9 @@ public class CommandFactory {
 
 	}
 
+	public Command createPostTransferCommand(String restful) {
+		int index = restful.indexOf("=");
+		return new PostTransferCommand(restful.substring(index+1));
+	}
+
 }

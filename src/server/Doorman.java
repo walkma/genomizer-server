@@ -136,6 +136,7 @@ public class Doorman {
 						exchange(exchange, CommandType.ADD_ANNOTATION_FIELD_COMMAND);
 						break;
 					case "/transfer":
+						exchange(exchange, CommandType.POST_TRANSFER_COMMAND);
 						break;
 					}
 					break;
@@ -233,8 +234,8 @@ public class Doorman {
 			exchange.sendResponseHeaders(response.getCode(), 0);
 
 		} else {
-//			Headers h = exchange.getResponseHeaders();
-//			h.set("Content-Type", "application/octet-stream");
+			Headers h = exchange.getResponseHeaders();
+			h.set("Content-Type", "application/octet-stream");
 
 			body = response.getBody();
 			exchange.sendResponseHeaders(response.getCode(), body.getBytes().length);
