@@ -8,29 +8,34 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
 
+import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpExchange;
+
 import database.DatabaseAccessor;
 
 import response.GetTransferResponse;
 import response.Response;
 import server.DatabaseSettings;
 
-public class GetTransferCommand extends Command{
+public class GetTransferCommand {
 
 	private BufferedInputStream bis;
 	private String fileID;
+	HttpExchange exchange;
 
-	public GetTransferCommand(String fileID) {
-		this.fileID = fileID;
+	public GetTransferCommand(HttpExchange exchange) {
+		//this.fileID = fileID;
+		this.exchange = exchange;
 	}
 
-	@Override
-	public boolean validate() {
-		// TODO Auto-generated method stub
-		return true;
-	}
+//	@Override
+//	public boolean validate() {
+//		// TODO Auto-generated method stub
+//		return true;
+//	}
 
-	@Override
-	public Response execute() {
+
+	public void execute() {
 //	      Headers h = exchange.getResponseHeaders();
 //	      h.add("Content-Type", "application/json");
 		DatabaseAccessor db = null;
@@ -39,6 +44,12 @@ public class GetTransferCommand extends Command{
 
 		try {
 			db = new DatabaseAccessor(DatabaseSettings.username, DatabaseSettings.password, DatabaseSettings.host, DatabaseSettings.database);
+
+			fileID = exchange.getRequestURI().toString();
+
+			String[] split = fileID.split("/");
+			fileID = split[split.length -1];
+
 			System.out.println("fileID = " + fileID);
 			String path = db.getFilePath(fileID);
 			System.out.println("path= " + path);
@@ -53,11 +64,20 @@ public class GetTransferCommand extends Command{
 
 			bis = new BufferedInputStream(fis);
 			bis.read(bytearray, 0, bytearray.length);
-			String str = new String(bytearray);
 
-			System.out.println("file: " + str);
+			Headers h = exchange.getResponseHeaders();
+			h.set("Content-Type", "application/octet-stream");
 
-			response = new GetTransferResponse(str);
+			exchange.sendResponseHeaders(200, file.length());
+
+
+
+			OutputStream os = exchange.getResponseBody();
+			os.write(bytearray,0,bytearray.length);
+			os.close();
+			fis.close();
+
+			//response = new GetTransferResponse(str);
 			System.out.println("Sending file response");
 
 		} catch (FileNotFoundException e) {
@@ -70,7 +90,7 @@ public class GetTransferCommand extends Command{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return response;
+		//return response;
 	}
 
 }

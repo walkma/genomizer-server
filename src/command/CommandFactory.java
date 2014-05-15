@@ -286,15 +286,15 @@ public class CommandFactory {
 
 	}
 
-	public Command createGetTransferCommand(String restful) {
-		int index = restful.indexOf("=");
-		return new GetTransferCommand(restful.substring(index+1));
-
-	}
-
-	public Command createPostTransferCommand(String restful) {
-		int index = restful.indexOf("=");
-		return new PostTransferCommand(restful.substring(index+1));
-	}
+//	public Command createGetTransferCommand(String restful) {
+//		int index = restful.indexOf("=");
+//		return new GetTransferCommand(restful.substring(index+1));
+//
+//	}
+//
+//	public Command createPostTransferCommand(String restful) {
+//		int index = restful.indexOf("=");
+//		return new PostTransferCommand(restful.substring(index+1));
+//	}
 
 }
