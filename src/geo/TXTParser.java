@@ -9,19 +9,29 @@ import java.util.ArrayList;
 public class TXTParser {
 
 	public static void main(String[] args) {
-
+		ArrayList<ArrayList<String>> infoList = null;
 		String path = "/home/dv12/dv12tkn/Downloads/GSE47236_series_matrix.txt";
 
 		try {
-			TXTParser.readFile(path);
+			infoList = TXTParser.readFile(path);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+		for (ArrayList<String> list : infoList) {
+			for (String l : list) {
+				if (list.indexOf(l) == 0) {
+					System.out.printf("%-30s", l);
+				} else {
+					System.out.printf("%-90s", l);
+				}
+			}
+			System.out.println();
+		}
 	}
 
-	public static ArrayList<ArrayList<String>> readFile(
-			String filePath) throws IOException {
+	public static ArrayList<ArrayList<String>> readFile(String filePath)
+			throws IOException {
 
 		ArrayList<ArrayList<String>> infoList = new ArrayList<ArrayList<String>>();
 		File f = new File(filePath);
@@ -62,11 +72,9 @@ public class TXTParser {
 					}
 					line = br.readLine();
 				}
-			} else if (equalsSplit(line,
-					"!Sample_supplementary_file_1")) {
+			} else if (equalsSplit(line, "!Sample_supplementary_file_1")) {
 				addString(infoList, line);
-			} else if (equalsSplit(line,
-					"!Sample_supplementary_file_2")) {
+			} else if (equalsSplit(line, "!Sample_supplementary_file_2")) {
 				addString(infoList, line);
 			}
 
@@ -77,31 +85,19 @@ public class TXTParser {
 
 		pushFPTRowsTogether(infoList);
 
-		for (ArrayList<String> list : infoList) {
-			for (String l : list) {
-				if (list.indexOf(l) == 0) {
-					System.out.printf("%-30s", l);
-				} else {
-					System.out.printf("%-90s", l);
-				}
-			}
-			System.out.println();
-		}
-
 		return infoList;
 
 	}
 
-	private static void addString(
-			ArrayList<ArrayList<String>> infoList, String line) {
+	private static void addString(ArrayList<ArrayList<String>> infoList,
+			String line) {
 		// Add a new row to the infoList
 		infoList.add(new ArrayList<String>());
 		// Split the line of text where there is a tab
 		String[] strings = line.split("\t");
 		// Add each sub-string to a new "cell"
 		for (int i = 0; i < strings.length; i++) {
-			infoList.get(infoList.size() - 1).add(
-					formatString(strings[i]));
+			infoList.get(infoList.size() - 1).add(formatString(strings[i]));
 		}
 	}
 
@@ -142,12 +138,9 @@ public class TXTParser {
 		return str1.split("\t")[0].compareTo(str2) == 0;
 	}
 
-	public static void pushFPTRowsTogether(
-			ArrayList<ArrayList<String>> infoList) {
+	public static void pushFPTRowsTogether(ArrayList<ArrayList<String>> infoList) {
 
-		/*
-		 * Loop through all the values in infoList
-		 */
+		// Loop through all the values in infoList
 		for (int i = 0; i < infoList.size(); i++) {
 			for (int j = 0; j < infoList.get(i).size(); j++) {
 				// If there is an empty cell
@@ -155,8 +148,7 @@ public class TXTParser {
 					// Check if the cell below it contains a url to an sra file
 					if (infoList.get(i + 1).get(j).contains("sra")) {
 						// Copy from the cell below to this cell
-						infoList.get(i).set(j,
-								infoList.get(i + 1).get(j));
+						infoList.get(i).set(j, infoList.get(i + 1).get(j));
 						// Remove the info from the cell below
 						infoList.get(i + 1).set(j, "");
 
