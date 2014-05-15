@@ -76,6 +76,12 @@ public class TXTParser {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!Sample_supplementary_file_2")) {
 				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_supplementary_file_3")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_supplementary_file_4")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_supplementary_file_5")) {
+				addString(infoList, line);
 			}
 
 			line = br.readLine();
