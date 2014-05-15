@@ -59,6 +59,8 @@ public class TXTParser {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!Sample_type")) {
 				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_title")) {
+				addString(infoList, line);
 			} else if (equalsSplit(line, "!Sample_characteristics_ch1")) {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!Sample_data_processing")) {
