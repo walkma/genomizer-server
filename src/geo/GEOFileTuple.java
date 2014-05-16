@@ -1,6 +1,5 @@
 package geo;
 
-
 public class GEOFileTuple {
 
 	public String seriesRelation;
