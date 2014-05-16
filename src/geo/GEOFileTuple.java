@@ -40,6 +40,7 @@ public class GEOFileTuple {
 	public String sampleContactAddress;
 	public String sampleContactInstitute;
 	public String sampleContactPhone;
+	public String sampleContactLaboratory;
 	public String sampleContactEmail;
 	public String sampleContactName;
 	public String samplePlatformId;
