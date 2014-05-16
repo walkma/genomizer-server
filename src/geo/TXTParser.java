@@ -99,6 +99,14 @@ public class TXTParser {
 		String line = br.readLine();
 
 		while (line != null) {
+
+			/*
+			 * +------------------------------------+
+			 * |	       !!  WARNING  !!			|
+			 * |		MASSIVE IF-ELSE AHEAD		|
+			 * |		PROCEED WITH CAUTION		|
+			 * +------------------------------------+
+			 */
 			if (equalsSplit(line, "!Series_title")) {
 				commonGEOInfo.seriesTitle = formatString(line);
 			} else if (equalsSplit(line, "!Series_geo_accession")) {
@@ -384,8 +392,10 @@ public class TXTParser {
 
 				for (int i = 0; i < infoList.size(); i++) {
 					if (infoList.get(i).sampleContactLaboratory != null) {
-						infoList.get(i).sampleContactLaboratory = infoList.get(i).sampleContactLaboratory
-								+ "\n" + formatString(temp[i + 1]);
+						infoList.get(i).sampleContactLaboratory = infoList
+								.get(i).sampleContactLaboratory
+								+ "\n"
+								+ formatString(temp[i + 1]);
 					} else {
 						infoList.get(i).sampleContactLaboratory = formatString(temp[i + 1]);
 					}
@@ -395,8 +405,10 @@ public class TXTParser {
 
 				for (int i = 0; i < infoList.size(); i++) {
 					if (infoList.get(i).sampleContactInstitute != null) {
-						infoList.get(i).sampleContactInstitute = infoList.get(i).sampleContactInstitute
-								+ "\n" + formatString(temp[i + 1]);
+						infoList.get(i).sampleContactInstitute = infoList
+								.get(i).sampleContactInstitute
+								+ "\n"
+								+ formatString(temp[i + 1]);
 					} else {
 						infoList.get(i).sampleMolecule = formatString(temp[i + 1]);
 					}
@@ -439,8 +451,10 @@ public class TXTParser {
 
 				for (int i = 0; i < infoList.size(); i++) {
 					if (infoList.get(i).sampleContactPostalCode != null) {
-						infoList.get(i).sampleContactPostalCode = infoList.get(i).sampleContactPostalCode
-								+ "\n" + formatString(temp[i + 1]);
+						infoList.get(i).sampleContactPostalCode = infoList
+								.get(i).sampleContactPostalCode
+								+ "\n"
+								+ formatString(temp[i + 1]);
 					} else {
 						infoList.get(i).sampleContactPostalCode = formatString(temp[i + 1]);
 					}
@@ -461,8 +475,10 @@ public class TXTParser {
 
 				for (int i = 0; i < infoList.size(); i++) {
 					if (infoList.get(i).sampleLibrarySelection != null) {
-						infoList.get(i).sampleLibrarySelection = infoList.get(i).sampleLibrarySelection
-								+ "\n" + formatString(temp[i + 1]);
+						infoList.get(i).sampleLibrarySelection = infoList
+								.get(i).sampleLibrarySelection
+								+ "\n"
+								+ formatString(temp[i + 1]);
 					} else {
 						infoList.get(i).sampleLibrarySelection = formatString(temp[i + 1]);
 					}
