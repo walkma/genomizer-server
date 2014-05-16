@@ -15,6 +15,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
 import command.Command;
 
 public class GEOCommand extends Command {
@@ -25,75 +28,42 @@ public class GEOCommand extends Command {
 
 	@Override
 	public boolean validate() {
-		if(this.getHeader() == null) {
-			return false;
-		} else {
-			return true;
-		}
+		return true;
 	}
 
 	@Override
 	public response.Response execute() {
+
+		//"/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt.gz"
 		String tempZipFileLoc = "/home/oi11/oi11msd/edu/programvaruteknik/Projekt/Testfiler/MatrxiFile1.txt.gz";
+		//"/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt"
 		String tempFileLoc = "/home/oi11/oi11msd/edu/programvaruteknik/Projekt/Testfiler/MatrxiFile1.txt";
-		ArrayList<ArrayList<String>> infoList;
+		ArrayList<GEOFileTuple> infoList = null;
 
 		try {
-		String matrixFileURL = GEOAccessor.getMatrixFileURL(this.header);
+		String matrixFileURL = GEOAccessor.getMatrixFileURL("GSE47236");
 		GEOAccessor.downloadMatrixFile(matrixFileURL, tempZipFileLoc);
 
 		GEOAccessor.gunzipFile(tempZipFileLoc, tempFileLoc);
 
 		infoList = TXTParser.readFile(tempFileLoc);
+		File file = new File(tempFileLoc);
+		file.delete();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-	}
-
-
-	public void getDownloads(String id) {
-		InputStream is;
-		try {
-			// Paste the id together with a searchstring
-			String url = "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc="
-					+ id + "&form=html";
-			is = new URL(url).openStream();
-			// Parse the xml and get all the urls to the files to download
-//			xmlH = XMLParser.parse(is);
-			findMatrixURL(is, url);
-			downloadMatrixFile();
-			gunzipFile();
-
-			ArrayList<ArrayList<String>> infoList = null;
-
-			try {
-				infoList = TXTParser.readFile("/home/oi11/oi11msd/edu/programvaruteknik/Projekt/Testfiler/MatrxiFile2.txt");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			for (ArrayList<String> list : infoList) {
-				for (String l : list) {
-					if (list.indexOf(l) == 0) {
-						System.out.printf("%-30s", l);
-					} else {
-						System.out.printf("%-90s", l);
-					}
-				}
-				System.out.println();
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return new GetGEOResponse(infoList);
 	}
 
 	public static void main(String[] args) {
 		GEOCommand geo = new GEOCommand();
-		geo.getDownloads("GSE57423");
+		String temp = geo.execute().getBody();
+
+		String[] hej = temp.split("[,}{]");
+
+		for(String l : hej) {
+			System.out.println(l);
+		}
 	}
 }
