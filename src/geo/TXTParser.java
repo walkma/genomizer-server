@@ -584,31 +584,12 @@ public class TXTParser {
 		return strings[strings.length - 1];
 	}
 
-	private static String checkIfNotURLToSRAFile(String string)
-			throws IOException {
-		// If the string is containing ftp, then the string is
-		// an url
-		if (string.contains("ftp")) {
-			// If the string contains sra, the the string is a
-			// url to a .sra file
-			if (string.contains("sra")) {
-				return getSRAFromDir(string);
-			}
-			// If not, the url is pointing to an uninteresting file
-			// and we remove the url
-			return "";
-		}
-		// If the string is not an url
-		return string;
-
-	}
-
 	private static boolean equalsSplit(String str1, String str2) {
 		// Check if the first word in str1 is equal to str2
 		return str1.split("\t")[0].compareTo(str2) == 0;
 	}
 
-	private static String getSRAFromDir(String url) throws IOException {
+	public static String getSRAFromDir(String url) throws IOException {
 		url = url + "/";
 		// This will get the subfolders from the url
 		InputStream is = new URL(url).openStream();
