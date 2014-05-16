@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class TXTParser {
@@ -58,8 +60,6 @@ public class TXTParser {
 			} else if (equalsSplit(line, "!Series_overall_design")) {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!Series_type")) {
-				addString(infoList, line);
-			} else if (equalsSplit(line, "!Sample_type")) {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!Series_contributor")) {
 				addString(infoList, line);
@@ -242,18 +242,21 @@ public class TXTParser {
 	}
 
 	private static void addString(ArrayList<ArrayList<String>> infoList,
-			String line) {
+			String line) throws IOException {
 
 		// Split the line of text where there is a tab
 		String[] strings = line.split("\t");
 
+		// If the category is already added
 		if (infoList.size() > 0
 				&& infoList.get(infoList.size() - 1).get(0)
 						.equalsIgnoreCase(strings[0])) {
+			// Add ;; to the end of the row
 			if (infoList.get(infoList.size() - 1).size() == 2) {
 				infoList.get(infoList.size() - 1).set(1,
 						infoList.get(infoList.size() - 1).get(1) + ";;");
 			}
+			// Pate on the new string
 			for (int i = 1; i < strings.length; i++) {
 				infoList.get(infoList.size() - 1).set(
 						1,
@@ -270,7 +273,7 @@ public class TXTParser {
 		}
 	}
 
-	private static String formatString(String string) {
+	private static String formatString(String string) throws IOException {
 		// Replace all ,, with " " to make it look nicer
 		string = string.replace(",,", " ");
 		// Split the string where there is a "
@@ -284,14 +287,15 @@ public class TXTParser {
 		return checkIfNotURLToSRAFile(strings[strings.length - 1]);
 	}
 
-	private static String checkIfNotURLToSRAFile(String string) {
+	private static String checkIfNotURLToSRAFile(String string)
+			throws IOException {
 		// If the string is containing ftp, then the string is
 		// an url
 		if (string.contains("ftp")) {
 			// If the string contains sra, the the string is a
 			// url to a .sra file
 			if (string.contains("sra")) {
-				return string;
+				return getSRAFromDir(string);
 			}
 			// If not, the url is pointing to an uninteresting file
 			// and we remove the url
@@ -340,5 +344,28 @@ public class TXTParser {
 			}
 			deleteRow = true;
 		}
+	}
+
+	private static String getSRAFromDir(String url) throws IOException {
+		url = url + "/";
+		// This will get the subfolders from the url
+		InputStream is = new URL(url).openStream();
+		byte[] buffer = new byte[1024];
+		int bytesRead = -1;
+		StringBuilder page = new StringBuilder(1024);
+		while ((bytesRead = is.read(buffer)) != -1) {
+			page.append(new String(buffer, 0, bytesRead));
+		}
+		String fileInfo = page.toString();
+
+		// Pick out the last word in fileInfo, that is the filename that we want
+		String[] temp = fileInfo.split(" ");
+		// Then paste the string together
+		url = url + temp[temp.length - 1].trim() + "/"
+				+ temp[temp.length - 1].trim() + ".sra";
+
+		is.close();
+
+		return url;
 	}
 }
