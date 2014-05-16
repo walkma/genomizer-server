@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
+import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
 
@@ -29,7 +31,14 @@ public class PostTransferCommand {
 
 		BufferedInputStream bis = new BufferedInputStream(exchange.getRequestBody());
 
-		File file = new File("");
+		String path = exchange.getRequestURI().toString();
+
+		String[] split = path.split("=");
+		path = split[split.length -1];
+
+		System.out.println("path = " + path);
+
+		File file = new File(path);
 
 		try {
 			FileOutputStream fos = new FileOutputStream(file);
@@ -39,7 +48,7 @@ public class PostTransferCommand {
 		    byte[] buffer = new byte[len];
 		    System.out.println("Lenght = " + len);
 		    bis.read(buffer, 0, len);
-		    //fos.write(buffer);
+		    fos.write(buffer);
 
 		    String qry = new String(buffer, "UTF-8");
 
