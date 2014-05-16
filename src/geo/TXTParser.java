@@ -12,7 +12,7 @@ public class TXTParser {
 
 	public static void main(String[] args) {
 		ArrayList<GEOFileTuple> infoList = null;
-		String path = "/home/dv12/dv12tkn/Downloads/GSE12345_series_matrix.txt";
+		String path = "/home/dv12/dv12tkn/Downloads/GSE47236_series_matrix.txt";
 
 		try {
 			long s = System.currentTimeMillis();
@@ -378,7 +378,7 @@ public class TXTParser {
 				for (int i = 0; i < infoList.size(); i++) {
 					String temporaryString = formatString(temp[i + 1]);
 					if (temporaryString.length() > 0) {
-						infoList.get(i).sampleSupplementaryFile = formatString(temp[i + 1]);
+						infoList.get(i).sampleSupplementaryFile = checkIfNotURLToSRAFile(temporaryString);
 					}
 				}
 			} else if (equalsSplit(line, "!Sample_supplementary_file_2")) {
@@ -387,7 +387,7 @@ public class TXTParser {
 				for (int i = 0; i < infoList.size(); i++) {
 					String temporaryString = formatString(temp[i + 1]);
 					if (temporaryString.length() > 0) {
-						infoList.get(i).sampleSupplementaryFile = formatString(temp[i + 1]);
+						infoList.get(i).sampleSupplementaryFile = checkIfNotURLToSRAFile(temporaryString);
 					}
 				}
 			}
@@ -401,6 +401,9 @@ public class TXTParser {
 
 	private static String[] addNewGEOFile(ArrayList<GEOFileTuple> infoList,
 			String line) throws IOException {
+		/*
+		 * If a there is more files than GEOFileTuple, add a new GEOFileTuple
+		 */
 		String[] temp = addString(infoList, line);
 		while (temp.length - 1 > infoList.size()) {
 			infoList.add(new GEOFileTuple());
@@ -427,7 +430,7 @@ public class TXTParser {
 		if (strings.length == 0) {
 			return "";
 		}
-		return checkIfNotURLToSRAFile(strings[strings.length - 1]);
+		return strings[strings.length - 1];
 	}
 
 	private static String checkIfNotURLToSRAFile(String string)
@@ -455,6 +458,7 @@ public class TXTParser {
 	}
 
 	private static String getSRAFromDir(String url) throws IOException {
+		System.out.print("Generating " + url + "...");
 		url = url + "/";
 		// This will get the subfolders from the url
 		InputStream is = new URL(url).openStream();
@@ -473,6 +477,7 @@ public class TXTParser {
 				+ temp[temp.length - 1].trim() + ".sra";
 
 		is.close();
+		System.out.println(" done!");
 
 		return url;
 	}
