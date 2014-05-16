@@ -12,74 +12,80 @@ public class TXTParser {
 
 	public static void main(String[] args) {
 		ArrayList<GEOFileTuple> infoList = null;
-		String path = "/home/dv12/dv12tkn/Downloads/GSE47236_series_matrix.txt";
+		String path = "/home/dv12/dv12tkn/Downloads/GSE12345_series_matrix.txt";
 
 		try {
+			long s = System.currentTimeMillis();
 			infoList = TXTParser.readFile(path);
+			System.out.println("-----------------------------------");
+			System.out.println("It took " + (System.currentTimeMillis() - s)
+					+ "ms to get all the data.");
+			System.out.println("-----------------------------------");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		int i = 0;
-
-		System.out.println(infoList.get(i).seriesRelation);
-		System.out.println(infoList.get(i).seriesSampleTaxid);
-		System.out.println(infoList.get(i).seriesPlatformTaxid);
-		System.out.println(infoList.get(i).seriesPlatformId);
-		System.out.println(infoList.get(i).seriesContactCountry);
-		System.out.println(infoList.get(i).seriesContactPostalCode);
-		System.out.println(infoList.get(i).seriesContactState);
-		System.out.println(infoList.get(i).seriesContactCity);
-		System.out.println(infoList.get(i).seriesContactAddress);
-		System.out.println(infoList.get(i).seriesContactInstitute);
-		System.out.println(infoList.get(i).seriesContactLaboratory);
-		System.out.println(infoList.get(i).seriesContactPhone);
-		System.out.println(infoList.get(i).seriesContactEmail);
-		System.out.println(infoList.get(i).seriesContactName);
-		System.out.println(infoList.get(i).seriesSampleId);
-		System.out.println(infoList.get(i).seriesContributors[i]);
-		System.out.println(infoList.get(i).seriesType);
-		System.out.println(infoList.get(i).seriesOverallDesign);
-		System.out.println(infoList.get(i).seriesSummary[i]);
-		System.out.println(infoList.get(i).seriesWebLink);
-		System.out.println(infoList.get(i).seriesLastUpdateDate);
-		System.out.println(infoList.get(i).seriesSubmissionDate);
-		System.out.println(infoList.get(i).seriesStatus);
-		System.out.println(infoList.get(i).seriesGeoAccession);
-		System.out.println(infoList.get(i).seriesTitle);
-		System.out.println(infoList.get(i).ID_REF);
-		System.out.println(infoList.get(i).sampleSupplementaryFile);
-		System.out.println(infoList.get(i).sampleRelation);
-		System.out.println(infoList.get(i).sampleLibraryStrategy);
-		System.out.println(infoList.get(i).sampleLibrarySource);
-		System.out.println(infoList.get(i).sampleLibrarySelection);
-		System.out.println(infoList.get(i).sampleInstrumentModel);
-		System.out.println(infoList.get(i).sampleContactPostalCode);
-		System.out.println(infoList.get(i).sampleContactState);
-		System.out.println(infoList.get(i).sampleContactCity);
-		System.out.println(infoList.get(i).sampleContactAddress);
-		System.out.println(infoList.get(i).sampleContactInstitute);
-		System.out.println(infoList.get(i).sampleContactPhone);
-		System.out.println(infoList.get(i).sampleContactLaboratory);
-		System.out.println(infoList.get(i).sampleContactEmail);
-		System.out.println(infoList.get(i).sampleContactName);
-		System.out.println(infoList.get(i).samplePlatformId);
-		System.out.println(infoList.get(i).sampleDataProcessing);
-		System.out.println(infoList.get(i).sampleDescription);
-		System.out.println(infoList.get(i).sampleTaxid);
-		System.out.println(infoList.get(i).sampleExtractProtocol);
-		System.out.println(infoList.get(i).sampleMolecule);
-		System.out.println(infoList.get(i).sampleCharacteristics);
-		System.out.println(infoList.get(i).sampleOrganism);
-		System.out.println(infoList.get(i).sampleSourceName);
-		System.out.println(infoList.get(i).sampleChannelCount);
-		System.out.println(infoList.get(i).sampleType);
-		System.out.println(infoList.get(i).sampleLastUpdateDate);
-		System.out.println(infoList.get(i).sampleSubmissionDate);
-		System.out.println(infoList.get(i).sampleStatus);
-		System.out.println(infoList.get(i).sampleGeoAccession);
-		System.out.println(infoList.get(i).sampleTitle);
-		System.out.println(infoList.get(i).sampleSupplementaryFile);
+		if (true) {
+			System.out.println(infoList.get(i).seriesRelation);
+			System.out.println(infoList.get(i).seriesSampleTaxid);
+			System.out.println(infoList.get(i).seriesPlatformTaxid);
+			System.out.println(infoList.get(i).seriesPlatformId);
+			System.out.println(infoList.get(i).seriesContactCountry);
+			System.out.println(infoList.get(i).seriesContactPostalCode);
+			System.out.println(infoList.get(i).seriesContactState);
+			System.out.println(infoList.get(i).seriesContactCity);
+			System.out.println(infoList.get(i).seriesContactAddress);
+			System.out.println(infoList.get(i).seriesContactInstitute);
+			System.out.println(infoList.get(i).seriesContactLaboratory);
+			System.out.println(infoList.get(i).seriesContactPhone);
+			System.out.println(infoList.get(i).seriesContactEmail);
+			System.out.println(infoList.get(i).seriesContactName);
+			System.out.println(infoList.get(i).seriesSampleId);
+			System.out.println(infoList.get(i).seriesContributors[0]);
+			System.out.println(infoList.get(i).seriesType);
+			System.out.println(infoList.get(i).seriesOverallDesign);
+			System.out.println(infoList.get(i).seriesSummary[0]);
+			System.out.println(infoList.get(i).seriesWebLink);
+			System.out.println(infoList.get(i).seriesLastUpdateDate);
+			System.out.println(infoList.get(i).seriesSubmissionDate);
+			System.out.println(infoList.get(i).seriesStatus);
+			System.out.println(infoList.get(i).seriesGeoAccession);
+			System.out.println(infoList.get(i).seriesTitle);
+			System.out.println(infoList.get(i).ID_REF);
+			System.out.println(infoList.get(i).sampleSupplementaryFile);
+			System.out.println(infoList.get(i).sampleRelation);
+			System.out.println(infoList.get(i).sampleLibraryStrategy);
+			System.out.println(infoList.get(i).sampleLibrarySource);
+			System.out.println(infoList.get(i).sampleLibrarySelection);
+			System.out.println(infoList.get(i).sampleInstrumentModel);
+			System.out.println(infoList.get(i).sampleContactPostalCode);
+			System.out.println(infoList.get(i).sampleContactState);
+			System.out.println(infoList.get(i).sampleContactCity);
+			System.out.println(infoList.get(i).sampleContactAddress);
+			System.out.println(infoList.get(i).sampleContactInstitute);
+			System.out.println(infoList.get(i).sampleContactPhone);
+			System.out.println(infoList.get(i).sampleContactLaboratory);
+			System.out.println(infoList.get(i).sampleContactEmail);
+			System.out.println(infoList.get(i).sampleContactName);
+			System.out.println(infoList.get(i).samplePlatformId);
+			System.out.println(infoList.get(i).sampleDataProcessing);
+			System.out.println(infoList.get(i).sampleDescription);
+			System.out.println(infoList.get(i).sampleTaxid);
+			System.out.println(infoList.get(i).sampleExtractProtocol);
+			System.out.println(infoList.get(i).sampleMolecule);
+			System.out.println(infoList.get(i).sampleCharacteristics);
+			System.out.println(infoList.get(i).sampleOrganism);
+			System.out.println(infoList.get(i).sampleSourceName);
+			System.out.println(infoList.get(i).sampleChannelCount);
+			System.out.println(infoList.get(i).sampleType);
+			System.out.println(infoList.get(i).sampleLastUpdateDate);
+			System.out.println(infoList.get(i).sampleSubmissionDate);
+			System.out.println(infoList.get(i).sampleStatus);
+			System.out.println(infoList.get(i).sampleGeoAccession);
+			System.out.println(infoList.get(i).sampleTitle);
+			System.out.println(infoList.get(i).sampleSupplementaryFile);
+		}
 	}
 
 	public static ArrayList<GEOFileTuple> readFile(String filePath)
@@ -385,7 +391,6 @@ public class TXTParser {
 					}
 				}
 			}
-
 			line = br.readLine();
 		}
 
