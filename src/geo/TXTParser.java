@@ -21,7 +21,7 @@ public class TXTParser {
 		for (ArrayList<String> list : infoList) {
 			for (String l : list) {
 				if (list.indexOf(l) == 0) {
-					System.out.printf("%-30s", l);
+					System.out.printf("%-35s", l);
 				} else {
 					System.out.printf("%-90s", l);
 				}
@@ -43,8 +43,6 @@ public class TXTParser {
 
 			if (equalsSplit(line, "!Series_title")) {
 				addString(infoList, line);
-			} else if (equalsSplit(line, "!Series_contributor")) {
-				addString(infoList, line);
 			} else if (equalsSplit(line, "!Series_geo_accession")) {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!Series_status")) {
@@ -57,9 +55,103 @@ public class TXTParser {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!Series_summary")) {
 				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_overall_design")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_type")) {
+				addString(infoList, line);
 			} else if (equalsSplit(line, "!Sample_type")) {
 				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contributor")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_sample_id")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contact_name")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contact_email")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contact_phone")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contact_laboratory")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contact_institute")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contact_address")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contact_city")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contact_state")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contact_zip/postal_code")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_contact_country")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_platform_id")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_platform_taxid")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_sample_taxid")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Series_relation")) {
+				addString(infoList, line);
 			} else if (equalsSplit(line, "!Sample_title")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_geo_accession")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_status")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_submission_date")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_last_update_date")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_type")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_channel_count")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_source_name_ch1")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_organism_ch1")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_characteristics_ch1")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_molecule_ch1")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_extract_protocol_ch1")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_taxid_ch1")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_description")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_data_processing")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_platform_id")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_contact_name")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_contact_email")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_contact_phone")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_contact_laboratory")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_contact_institute")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_contact_address")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_contact_city")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_contact_state")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_contact_zip/postal_code")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_instrument_model")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_library_selection")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_library_source")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_library_strategy")) {
+				addString(infoList, line);
+			} else if (equalsSplit(line, "!Sample_relation")) {
 				addString(infoList, line);
 			} else if (equalsSplit(line, "!Sample_characteristics_ch1")) {
 				addString(infoList, line);
@@ -91,25 +183,96 @@ public class TXTParser {
 
 		pushFPTRowsTogether(infoList);
 
+		mergeSort(infoList);
+
 		return infoList;
 
 	}
 
+	private static void mergeSort(ArrayList<ArrayList<String>> infoList) {
+		if (infoList.size() > 1) {
+			int q = infoList.size() / 2;
+
+			ArrayList<ArrayList<String>> leftArray = new ArrayList<ArrayList<String>>(
+					infoList.subList(0, q));
+			ArrayList<ArrayList<String>> rightArray = new ArrayList<ArrayList<String>>(
+					infoList.subList(q, infoList.size()));
+
+			mergeSort(leftArray);
+			mergeSort(rightArray);
+
+			merge(infoList, leftArray, rightArray);
+		}
+	}
+
+	static void merge(ArrayList<ArrayList<String>> infoList,
+			ArrayList<ArrayList<String>> leftArray,
+			ArrayList<ArrayList<String>> rightArray) {
+		int totElem = leftArray.size() + rightArray.size();
+		int i, li, ri;
+		i = li = ri = 0;
+		while (i < totElem) {
+			if ((li < leftArray.size()) && (ri < rightArray.size())) {
+				if (leftArray.get(li).size() < rightArray.get(ri).size()) {
+					infoList.set(i, leftArray.get(li));
+					i++;
+					li++;
+				} else {
+					infoList.set(i, rightArray.get(ri));
+					i++;
+					ri++;
+				}
+			} else {
+				if (li >= leftArray.size()) {
+					while (ri < rightArray.size()) {
+						infoList.set(i, rightArray.get(ri));
+						i++;
+						ri++;
+					}
+				}
+				if (ri >= rightArray.size()) {
+					while (li < leftArray.size()) {
+						infoList.set(i, leftArray.get(li));
+						li++;
+						i++;
+					}
+				}
+			}
+		}
+	}
+
 	private static void addString(ArrayList<ArrayList<String>> infoList,
 			String line) {
-		// Add a new row to the infoList
-		infoList.add(new ArrayList<String>());
+
 		// Split the line of text where there is a tab
 		String[] strings = line.split("\t");
-		// Add each sub-string to a new "cell"
-		for (int i = 0; i < strings.length; i++) {
-			infoList.get(infoList.size() - 1).add(formatString(strings[i]));
+
+		if (infoList.size() > 0
+				&& infoList.get(infoList.size() - 1).get(0)
+						.equalsIgnoreCase(strings[0])) {
+			if (infoList.get(infoList.size() - 1).size() == 2) {
+				infoList.get(infoList.size() - 1).set(1,
+						infoList.get(infoList.size() - 1).get(1) + ";;");
+			}
+			for (int i = 1; i < strings.length; i++) {
+				infoList.get(infoList.size() - 1).set(
+						1,
+						infoList.get(infoList.size() - 1).get(1)
+								+ formatString(strings[i]));
+			}
+		} else {
+			// Add a new row to the infoList
+			infoList.add(new ArrayList<String>());
+			// Add each sub-string to a new "cell"
+			for (int i = 0; i < strings.length; i++) {
+				infoList.get(infoList.size() - 1).add(formatString(strings[i]));
+			}
 		}
 	}
 
 	private static String formatString(String string) {
-		// Replace all ,, with , to make it look nicer
-		string = string.replace(",,", ", ");
+		// Replace all ,, with " " to make it look nicer
+		string = string.replace(",,", " ");
 		// Split the string where there is a "
 		// Because all strings are surrounded with ""
 		String[] strings = string.split("\"");
