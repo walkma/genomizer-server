@@ -458,7 +458,6 @@ public class TXTParser {
 	}
 
 	private static String getSRAFromDir(String url) throws IOException {
-		System.out.print("Generating " + url + "...");
 		url = url + "/";
 		// This will get the subfolders from the url
 		InputStream is = new URL(url).openStream();
@@ -477,7 +476,6 @@ public class TXTParser {
 				+ temp[temp.length - 1].trim() + ".sra";
 
 		is.close();
-		System.out.println(" done!");
 
 		return url;
 	}
