@@ -25,7 +25,7 @@ public class TXTParser {
 				if (list.indexOf(l) == 0) {
 					System.out.printf("%-35s", l);
 				} else {
-					System.out.printf("%-90s", l);
+					System.out.printf("%-100s", l);
 				}
 			}
 			System.out.println();
@@ -255,6 +255,9 @@ public class TXTParser {
 			if (infoList.get(infoList.size() - 1).size() == 2) {
 				infoList.get(infoList.size() - 1).set(1,
 						infoList.get(infoList.size() - 1).get(1) + ";;");
+			} else if (infoList.get(infoList.size() - 1).size() > 2) {
+				infoList.get(infoList.size() - 1).set(1,
+						infoList.get(infoList.size() - 1).get(1) + "\n");
 			}
 			// Pate on the new string
 			for (int i = 1; i < strings.length; i++) {
@@ -295,7 +298,7 @@ public class TXTParser {
 			// If the string contains sra, the the string is a
 			// url to a .sra file
 			if (string.contains("sra")) {
-				return getSRAFromDir(string);
+//				return getSRAFromDir(string);
 			}
 			// If not, the url is pointing to an uninteresting file
 			// and we remove the url
