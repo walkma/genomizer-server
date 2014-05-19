@@ -25,7 +25,7 @@ public class TXTParser {
 			e.printStackTrace();
 		}
 
-		int i = 0;
+		int i = 1;
 		if (true) {
 			System.out.println(infoList.get(i).seriesRelation);
 			System.out.println(infoList.get(i).seriesSampleTaxid);
@@ -42,10 +42,10 @@ public class TXTParser {
 			System.out.println(infoList.get(i).seriesContactEmail);
 			System.out.println(infoList.get(i).seriesContactName);
 			System.out.println(infoList.get(i).seriesSampleId);
-			System.out.println(infoList.get(i).seriesContributors[0]);
+			System.out.println(infoList.get(0).seriesContributors[0]);
 			System.out.println(infoList.get(i).seriesType);
 			System.out.println(infoList.get(i).seriesOverallDesign);
-			System.out.println(infoList.get(i).seriesSummary[0]);
+			System.out.println(infoList.get(0).seriesSummary[0]);
 			System.out.println(infoList.get(i).seriesWebLink);
 			System.out.println(infoList.get(i).seriesLastUpdateDate);
 			System.out.println(infoList.get(i).seriesSubmissionDate);
@@ -114,8 +114,10 @@ public class TXTParser {
 		while (line != null) {
 
 			/*
-			 * +------------------------------------+ | !! WARNING !! | |
-			 * MASSIVE IF-ELSE AHEAD | | PROCEED WITH CAUTION |
+			 * +------------------------------------+
+			 * |            !! WARNING !!           |
+			 * |         MASSIVE IF-ELSE AHEAD      |
+			 * |         PROCEED WITH CAUTION       |
 			 * +------------------------------------+
 			 */
 			if (equalsSplit(line, "!Series_title")) {
@@ -421,7 +423,7 @@ public class TXTParser {
 								+ "\n"
 								+ formatString(temp[i + 1]);
 					} else {
-						infoList.get(i).sampleMolecule = formatString(temp[i + 1]);
+						infoList.get(i).sampleContactInstitute = formatString(temp[i + 1]);
 					}
 				}
 			} else if (equalsSplit(line, "!Sample_contact_address")) {
@@ -523,8 +525,9 @@ public class TXTParser {
 					if (infoList.get(i).sampleRelation != null) {
 						infoList.get(i).sampleRelation = infoList.get(i).sampleRelation
 								+ "\n" + formatString(temp[i + 1]);
+
 					} else {
-						infoList.get(i).sampleMolecule = formatString(temp[i + 1]);
+						infoList.get(i).sampleRelation = formatString(temp[i + 1]);
 					}
 				}
 			} else if (equalsSplit(line, "!Sample_data_processing")) {
@@ -608,6 +611,7 @@ public class TXTParser {
 		if (strings.length == 0) {
 			return "";
 		}
+
 		return strings[strings.length - 1];
 	}
 
