@@ -3,6 +3,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import command.Command;
 
 public class GEOCommand extends Command {
@@ -19,12 +26,10 @@ public class GEOCommand extends Command {
 	@Override
 	public response.Response execute() {
 
-		long time = System.nanoTime();
-
 		//"/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt.gz"
-		String tempZipFileLoc = "/home/dv12/dv12tkn/Downloads/MatrxiFile" + time + ".txt.gz";
+		String tempZipFileLoc = "/home/oi11/oi11msd/edu/programvaruteknik/Projekt/Testfiler/MatrxiFile1.txt.gz";
 		//"/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt"
-		String tempFileLoc = "/home/dv12/dv12tkn/Downloads/MatrxiFile" + time + ".txt";
+		String tempFileLoc = "/home/oi11/oi11msd/edu/programvaruteknik/Projekt/Testfiler/MatrxiFile1.txt";
 		ArrayList<GEOFileTuple> infoList = null;
 
 		try {
@@ -34,8 +39,8 @@ public class GEOCommand extends Command {
 		GEOAccessor.gunzipFile(tempZipFileLoc, tempFileLoc);
 
 		infoList = TXTParser.readFile(tempFileLoc);
-		File file = new File(tempFileLoc);
-		file.delete();
+//		File file = new File(tempFileLoc);
+//		file.delete();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,14 +48,21 @@ public class GEOCommand extends Command {
 		return new GetGEOResponse(infoList);
 	}
 
+    public static String toPrettyFormat(String jsonString)
+    {
+        JsonParser parser = new JsonParser();
+        JsonObject json = parser.parse(jsonString).getAsJsonObject();
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String prettyJson = gson.toJson(json);
+
+        return prettyJson;
+    }
+
 	public static void main(String[] args) {
 		GEOCommand geo = new GEOCommand();
 		String temp = geo.execute().getBody();
 
-		String[] hej = temp.split("[,}{]");
-
-		for(String l : hej) {
-			System.out.println(l);
-		}
+		System.out.println(toPrettyFormat(temp));
 	}
 }
