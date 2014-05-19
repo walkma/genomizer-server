@@ -88,6 +88,19 @@ public class TXTParser {
 		}
 	}
 
+	/**
+	 * Takes a path to a .txt file, will then parse the file and create an
+	 * ArrayList with GEOFileTuples. The first GEOFileTuple in the list contains
+	 * all the information that is common for all the files. The other files
+	 * contains information for individual samples.
+	 *
+	 * @param filePath
+	 *            The path to the .txt to parse (A series_matrix file from the
+	 *            GEO database)
+	 * @return An ArrayList with objects representing the information in the
+	 *         .txt file.
+	 * @throws IOException
+	 */
 	public static ArrayList<GEOFileTuple> readFile(String filePath)
 			throws IOException {
 		ArrayList<GEOFileTuple> infoList = new ArrayList<GEOFileTuple>();
@@ -101,10 +114,8 @@ public class TXTParser {
 		while (line != null) {
 
 			/*
-			 * +------------------------------------+
-			 * |	       !!  WARNING  !!			|
-			 * |		MASSIVE IF-ELSE AHEAD		|
-			 * |		PROCEED WITH CAUTION		|
+			 * +------------------------------------+ | !! WARNING !! | |
+			 * MASSIVE IF-ELSE AHEAD | | PROCEED WITH CAUTION |
 			 * +------------------------------------+
 			 */
 			if (equalsSplit(line, "!Series_title")) {
@@ -605,6 +616,15 @@ public class TXTParser {
 		return str1.split("\t")[0].compareTo(str2) == 0;
 	}
 
+	/**
+	 * Will take an ftp-url and iterate through the folders until it finds a
+	 * .sra file and then return a new url pointing directly to that file.
+	 *
+	 * @param url
+	 *            The url to the directory containing more directorys
+	 * @return The full url to the .sra file
+	 * @throws IOException
+	 */
 	public static String getSRAFromDir(String url) throws IOException {
 		url = url + "/";
 		// This will get the subfolders from the url
