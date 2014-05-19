@@ -1,16 +1,15 @@
 package command;
 
 import java.sql.SQLException;
-import java.util.Map;
-
-import com.google.gson.annotations.Expose;
-
-import database.DatabaseAccessor;
 
 import response.MinimalResponse;
 import response.Response;
 import response.StatusCode;
 import server.DatabaseSettings;
+
+import com.google.gson.annotations.Expose;
+
+import database.DatabaseAccessor;
 
 /**
  * Class used to represent a logout command.

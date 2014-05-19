@@ -1,18 +1,13 @@
 package process.tests;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-
-
-import junit.framework.Assert;
-import junit.framework.AssertionFailedError;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import process.classes.Executor;
 import process.classes.RawToProfileConverter;
 
 public class RawToProfileTest {

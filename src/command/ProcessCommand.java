@@ -11,10 +11,10 @@ import response.Response;
 import response.StatusCode;
 import server.DatabaseSettings;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.annotations.Expose;
-import database.*;
+
+import database.DatabaseAccessor;
+import database.MaxSize;
 
 public class ProcessCommand extends Command {
 

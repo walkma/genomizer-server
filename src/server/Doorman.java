@@ -13,7 +13,6 @@ import response.StatusCode;
 import authentication.Authenticate;
 
 import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -39,7 +38,7 @@ public class Doorman {
 		httpServer.createContext("/process", createHandler());
 		httpServer.createContext("/sysadm", createHandler());
 		httpServer.createContext("/geo", createHandler());
-		HttpContext context = httpServer.createContext("/transfer", createHandler());
+//		HttpContext context = httpServer.createContext("/transfer", createHandler());
 		//context.getFilters().add(new ParameterFilter());
 
 		httpServer.setExecutor(new Executor() {

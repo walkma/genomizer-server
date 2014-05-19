@@ -1,7 +1,5 @@
 package command;
 
-import java.util.ArrayList;
-
 import response.MinimalResponse;
 import response.Response;
 import response.StatusCode;

@@ -2,7 +2,7 @@ package command;
 
 import geo.GEOCommand;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

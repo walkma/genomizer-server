@@ -5,17 +5,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.sql.SQLException;
-
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
-
-import database.DatabaseAccessor;
 
 import response.GetTransferResponse;
 import response.Response;
 import server.DatabaseSettings;
+import database.DatabaseAccessor;
 
 public class GetTransferCommand extends Command {
 

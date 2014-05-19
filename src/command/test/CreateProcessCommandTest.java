@@ -1,14 +1,12 @@
 package command.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import response.Response;
 
-import authentication.Authenticate;
-
-import command.Command;
 import command.CommandFactory;
 import command.ProcessCommand;
 

@@ -1,9 +1,7 @@
 package process.classes;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 /**
  * Class used to create profile data from .fastq format.

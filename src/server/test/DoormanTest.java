@@ -1,11 +1,6 @@
 package server.test;
 
-import static org.junit.Assert.*;
-
-import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import org.junit.Before;

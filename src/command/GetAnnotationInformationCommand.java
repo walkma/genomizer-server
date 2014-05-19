@@ -5,16 +5,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import database.DatabaseAccessor;
 
 import response.AnnotationInformation;
 import response.GetAnnotationInformationResponse;
 import response.Response;
 import server.DatabaseSettings;
+import database.DatabaseAccessor;
 
 public class GetAnnotationInformationCommand extends Command {
 

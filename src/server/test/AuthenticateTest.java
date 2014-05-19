@@ -1,7 +1,5 @@
 package server.test;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import authentication.Authenticate;
