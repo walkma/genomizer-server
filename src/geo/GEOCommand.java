@@ -1,22 +1,13 @@
 package geo;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.zip.GZIPInputStream;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import command.Command;
 
@@ -47,8 +38,8 @@ public class GEOCommand extends Command {
 		GEOAccessor.gunzipFile(tempZipFileLoc, tempFileLoc);
 
 		infoList = TXTParser.readFile(tempFileLoc);
-		File file = new File(tempFileLoc);
-		file.delete();
+//		File file = new File(tempFileLoc);
+//		file.delete();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,14 +47,21 @@ public class GEOCommand extends Command {
 		return new GetGEOResponse(infoList);
 	}
 
+    public static String toPrettyFormat(String jsonString)
+    {
+        JsonParser parser = new JsonParser();
+        JsonObject json = parser.parse(jsonString).getAsJsonObject();
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String prettyJson = gson.toJson(json);
+
+        return prettyJson;
+    }
+
 	public static void main(String[] args) {
 		GEOCommand geo = new GEOCommand();
 		String temp = geo.execute().getBody();
 
-		String[] hej = temp.split("[,}{]");
-
-		for(String l : hej) {
-			System.out.println(l);
-		}
+		System.out.println(toPrettyFormat(temp));
 	}
 }
