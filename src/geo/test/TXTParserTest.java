@@ -42,26 +42,22 @@ public class TXTParserTest {
 
 	@Test
 	public void testFirstSeriesStatus() {
-		assertTrue(gl.get(0).seriesStatus
-				.equals("Public on May 28 2013"));
+		assertTrue(gl.get(0).seriesStatus.equals("Public on May 28 2013"));
 	}
 
 	@Test
 	public void testFirstSeriesContributor1() {
-		assertTrue(gl.get(0).seriesContributors[0]
-				.equals("Gary Karpen"));
+		assertTrue(gl.get(0).seriesContributors[0].equals("Gary Karpen"));
 	}
 
 	@Test
 	public void testFirstSeriesContributor2() {
-		assertTrue(gl.get(0).seriesContributors[1]
-				.equals("Sarah Elgin"));
+		assertTrue(gl.get(0).seriesContributors[1].equals("Sarah Elgin"));
 	}
 
 	@Test
 	public void testFirstSeriesContributorLast() {
-		assertTrue(gl.get(0).seriesContributors[13]
-				.equals("Cameron Kennedy"));
+		assertTrue(gl.get(0).seriesContributors[13].equals("Cameron Kennedy"));
 	}
 
 	@Test
@@ -170,6 +166,17 @@ public class TXTParserTest {
 		assertNotNull(gl.get(1).sampleGeoAccession);
 		assertNotNull(gl.get(1).sampleTitle);
 		assertNotNull(gl.get(1).sampleSupplementaryFile);
+	}
+
+	@Test
+	public void testGetURLToSRA() {
+		String url = "ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/sra/SRX/SRX287/SRX287594";
+		try {
+			String fullURL = TXTParser.getSRAFromDir(url);
+			assertEquals(fullURL, url + "/SRR869737/SRR869737.sra");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

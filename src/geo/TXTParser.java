@@ -114,10 +114,8 @@ public class TXTParser {
 		while (line != null) {
 
 			/*
-			 * +------------------------------------+
-			 * |            !! WARNING !!           |
-			 * |         MASSIVE IF-ELSE AHEAD      |
-			 * |         PROCEED WITH CAUTION       |
+			 * +------------------------------------+ | !! WARNING !! | |
+			 * MASSIVE IF-ELSE AHEAD | | PROCEED WITH CAUTION |
 			 * +------------------------------------+
 			 */
 			if (equalsSplit(line, "!Series_title")) {
@@ -623,6 +621,7 @@ public class TXTParser {
 	/**
 	 * Will take an ftp-url and iterate through the folders until it finds a
 	 * .sra file and then return a new url pointing directly to that file.
+	 * (Note: this will take about two seconds for one url.)
 	 *
 	 * @param url
 	 *            The url to the directory containing more directorys
