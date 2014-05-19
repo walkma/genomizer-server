@@ -3,13 +3,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import response.Response;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
 import command.Command;
 
 public class GEOCommand extends Command {
@@ -24,12 +23,14 @@ public class GEOCommand extends Command {
 	}
 
 	@Override
-	public response.Response execute() {
+	public Response execute() {
+
+		long time = System.nanoTime();
 
 		//"/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt.gz"
-		String tempZipFileLoc = "/home/oi11/oi11msd/edu/programvaruteknik/Projekt/Testfiler/MatrxiFile1.txt.gz";
+		String tempZipFileLoc = "/home/dv12/dv12tkn/MatrxiFile" + time + ".txt.gz";
 		//"/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt"
-		String tempFileLoc = "/home/oi11/oi11msd/edu/programvaruteknik/Projekt/Testfiler/MatrxiFile1.txt";
+		String tempFileLoc = "/home/dv12/dv12tkn/MatrxiFile" + time + "txt";
 		ArrayList<GEOFileTuple> infoList = null;
 
 		try {
@@ -39,10 +40,9 @@ public class GEOCommand extends Command {
 		GEOAccessor.gunzipFile(tempZipFileLoc, tempFileLoc);
 
 		infoList = TXTParser.readFile(tempFileLoc);
-//		File file = new File(tempFileLoc);
-//		file.delete();
+		File file = new File(tempFileLoc);
+		file.delete();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return new GetGEOResponse(infoList);

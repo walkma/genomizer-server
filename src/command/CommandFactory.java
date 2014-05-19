@@ -299,7 +299,8 @@ public class CommandFactory {
 		return new PostTransferCommand(json, restful.substring(index+1));
 	}
 
-	public Command createSearchGEO(String json, String parsedRest) {
+	public Command createSearchGEO(String json, String restful) {
+		System.out.println(restful);
 		return new GEOCommand();
 	}
 

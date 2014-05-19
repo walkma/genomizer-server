@@ -9,11 +9,12 @@ import com.google.gson.JsonObject;
 
 import response.Response;
 
-public class GetGEOResponse extends Response{
+public class GetGEOResponse extends Response {
 
 	private String body;
 
 	public GetGEOResponse(ArrayList<GEOFileTuple> geoFileList) {
+		code = 200;
 		JsonObject obj = new JsonObject();
 
 		JsonArray geofileArray = new JsonArray();
