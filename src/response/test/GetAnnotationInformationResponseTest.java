@@ -1,6 +1,6 @@
 package response.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
@@ -10,10 +10,6 @@ import response.AnnotationInformation;
 import response.GetAnnotationInformationResponse;
 import response.Response;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import command.AddAnnotationFieldCommand;
-import command.Command;
 import command.GetAnnotationInformationCommand;
 
 public class GetAnnotationInformationResponseTest {
@@ -26,14 +22,14 @@ public class GetAnnotationInformationResponseTest {
 		gender.add("male");
 		gender.add("female");
 		gender.add("unknown");
-		AnnotationInformation ai = new AnnotationInformation(1, "Gender", AnnotationInformation.TYPE_DROP_DOWN, gender, true);
-		arraylist.add(ai);
+//		AnnotationInformation ai = new AnnotationInformation(1, "Gender", AnnotationInformation.TYPE_DROP_DOWN, gender, true);
+//		arraylist.add(ai);
 		ArrayList<String> cellLine = new ArrayList<String>();
 		cellLine.add("true");
 		cellLine.add("false");
 		cellLine.add("unknown");
-		AnnotationInformation ai2 = new AnnotationInformation(2, "Cell Line", AnnotationInformation.TYPE_DROP_DOWN, cellLine, true);
-		arraylist.add(ai2);
+//		AnnotationInformation ai2 = new AnnotationInformation(2, "Cell Line", AnnotationInformation.TYPE_DROP_DOWN, cellLine, true);
+//		arraylist.add(ai2);
 
 		GetAnnotationInformationResponse air = new GetAnnotationInformationResponse(200, arraylist);
 		System.out.println(air.getBody());
