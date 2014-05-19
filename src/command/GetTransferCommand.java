@@ -17,67 +17,56 @@ import response.GetTransferResponse;
 import response.Response;
 import server.DatabaseSettings;
 
-public class GetTransferCommand {
+public class GetTransferCommand extends Command {
 
 	private BufferedInputStream bis;
 	private String fileID;
-	HttpExchange exchange;
 
-	public GetTransferCommand(HttpExchange exchange) {
-		//this.fileID = fileID;
-		this.exchange = exchange;
+	public GetTransferCommand(String fileID) {
+		// this.fileID = fileID;
+		this.fileID = fileID;
 	}
 
-//	@Override
-//	public boolean validate() {
-//		// TODO Auto-generated method stub
-//		return true;
-//	}
+	public Response execute() {
 
-
-	public void execute() {
-//	      Headers h = exchange.getResponseHeaders();
-//	      h.add("Content-Type", "application/json");
 		DatabaseAccessor db = null;
 
-	      GetTransferResponse response = null;
+		GetTransferResponse response = null;
 
 		try {
-			db = new DatabaseAccessor(DatabaseSettings.username, DatabaseSettings.password, DatabaseSettings.host, DatabaseSettings.database);
+			db = new DatabaseAccessor(DatabaseSettings.username,
+					DatabaseSettings.password, DatabaseSettings.host,
+					DatabaseSettings.database);
 
-			fileID = exchange.getRequestURI().toString();
-
-			String[] split = fileID.split("/");
-			fileID = split[split.length -1];
 
 			System.out.println("fileID = " + fileID);
 			String path = db.getFilePath(fileID);
 			System.out.println("path= " + path);
 
-			//TODO: REMOVE
+			// TODO: REMOVE
 			path = "/home/c11/c11vlg/Downloads/test3.txt";
 
-			File file = new File (path);
-		    byte [] bytearray  = new byte [(int)file.length()];
-		    FileInputStream fis;
+			File file = new File(path);
+			byte[] bytearray = new byte[(int) file.length()];
+			FileInputStream fis;
 			fis = new FileInputStream(file);
 
 			bis = new BufferedInputStream(fis);
 			bis.read(bytearray, 0, bytearray.length);
+//
+//			Headers h = exchange.getResponseHeaders();
+//			h.set("Content-Type", "application/octet-stream");
 
-			Headers h = exchange.getResponseHeaders();
-			h.set("Content-Type", "application/octet-stream");
+			//exchange.sendResponseHeaders(200, file.length());
 
-			exchange.sendResponseHeaders(200, file.length());
-
-
-
-			OutputStream os = exchange.getResponseBody();
-			os.write(bytearray,0,bytearray.length);
-			os.close();
+//			OutputStream os = exchange.getResponseBody();
+//			os.write(bytearray, 0, bytearray.length);
+//			os.close();
 			fis.close();
 
-			//response = new GetTransferResponse(str);
+			String str = new String(bytearray, "UTF-8");
+
+			response = new GetTransferResponse(str);
 			System.out.println("Sending file response");
 
 		} catch (FileNotFoundException e) {
@@ -90,7 +79,13 @@ public class GetTransferCommand {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//return response;
+		return response;
+	}
+
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

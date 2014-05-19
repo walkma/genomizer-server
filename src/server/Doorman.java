@@ -4,6 +4,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.Executor;
 
@@ -13,13 +18,12 @@ import response.StatusCode;
 import authentication.Authenticate;
 
 import com.sun.net.httpserver.Headers;
+import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import command.CommandHandler;
 import command.CommandType;
-import command.GetTransferCommand;
-import command.PostTransferCommand;
 
 public class Doorman {
 
@@ -39,7 +43,8 @@ public class Doorman {
 		httpServer.createContext("/user", createHandler());
 		httpServer.createContext("/process", createHandler());
 		httpServer.createContext("/sysadm", createHandler());
-		httpServer.createContext("/transfer", createHandler());
+		HttpContext context = httpServer.createContext("/transfer", createHandler());
+		//context.getFilters().add(new ParameterFilter());
 
 		httpServer.setExecutor(new Executor() {
 			@Override
@@ -84,8 +89,9 @@ public class Doorman {
 						exchange(exchange, CommandType.GET_ANNOTATION_PRIVILEGES_COMMAND);
 						break;
 					case "/transfer":
-						GetTransferCommand getTransferCommand = new GetTransferCommand(exchange);
-						getTransferCommand.execute();
+						exchange(exchange, CommandType.GET_TRANSFER_COMMAND);
+//						GetTransferCommand getTransferCommand = new GetTransferCommand(exchange);
+//						getTransferCommand.execute();
 						break;
 					}
 					break;
@@ -134,8 +140,9 @@ public class Doorman {
 						exchange(exchange, CommandType.ADD_ANNOTATION_FIELD_COMMAND);
 						break;
 					case "/transfer":
-						PostTransferCommand postTransferCommand = new PostTransferCommand(exchange);
-						postTransferCommand.execute();
+						exchange(exchange, CommandType.POST_TRANSFER_COMMAND);
+//						PostTransferCommand postTransferCommand = new PostTransferCommand(exchange);
+//						postTransferCommand.execute();
 						break;
 					}
 					break;
@@ -168,16 +175,27 @@ public class Doorman {
 	}
 
 	private void exchange(HttpExchange exchange, CommandType type) {
+
+		//TEMP
+
+		//ENDTEMP
+
 		InputStream bodyStream = exchange.getRequestBody();
 		Scanner scanner = new Scanner(bodyStream);
 		String body = "";
+
 		String uuid = null;
 		String username = null;
 		System.out.println("Exchange: " + type);
 
 		if(type != CommandType.LOGIN_COMMAND) {
 			try {
-				uuid =  exchange.getRequestHeaders().get("Authorization").get(0);
+				//uuid =  exchange.getRequestHeaders().get("Authorization").get(0);
+				//Set Content-type to application/octet-stream if command type is a GET transfer
+				if(type == CommandType.GET_TRANSFER_COMMAND) {
+					Headers h = exchange.getResponseHeaders();
+					h.set("Content-Type", "application/octet-stream");
+				}
 			} catch(NullPointerException e) {
 				System.out.println("Unauthorized request!");
 				Response errorResponse = new MinimalResponse(StatusCode.UNAUTHORIZED);
@@ -194,6 +212,30 @@ public class Doorman {
 		} else {
 			System.out.println("FOUND LOGIN COMMAND.");
 		}
+		if(type == CommandType.POST_TRANSFER_COMMAND) {
+			byte[] temp = new byte[1024];
+			try {
+				bodyStream.read(temp);
+				body = new String(temp);
+				//FileUpload fileUpload = new FileUpload();
+//				String boundary = exchange.getRequestHeaders().getFirst("Content-Type");
+//				boundary = boundary.split("boundary=")[1];
+//				boundary = boundary.concat("\n"+body);
+//				System.out.println("BOUNDARY: " + boundary);
+//				Map<String, Object> params =
+//				           (Map<String, Object>)exchange.getAttribute("parameters");
+//				System.out.println("uploadfile: " + params.get("name"));
+//				System.out.println("path: " + params.get(""));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else {
+			while(scanner.hasNext()) {
+				body = body.concat(" " + scanner.next());
+			}
+		}
+
 		while(scanner.hasNext()) {
 			body = body.concat(" " + scanner.next());
 		}
