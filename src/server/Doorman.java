@@ -248,6 +248,7 @@ public class Doorman {
 		}
 		System.out.println("BEFORE PROCESS COMMAND...");
 		try {
+			System.out.println("Jodu, det va den biten " + exchange.getRequestURI().toString());
 			response = commandHandler.processNewCommand(body, exchange.getRequestURI().toString(), username, type);
 		} catch(Exception e ) {
 			e.printStackTrace();

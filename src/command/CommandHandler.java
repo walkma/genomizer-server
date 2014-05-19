@@ -168,7 +168,7 @@ public class CommandHandler {
 		} else if (cmdt == CommandType.POST_TRANSFER_COMMAND) {
 			newCommand = cmdFactory.createPostTransferCommand(json, parsedRest);
 		} else if (cmdt == CommandType.GET_GEO_ID) {
-			newCommand = cmdFactory.createSearchGEO(json);
+			newCommand = cmdFactory.createSearchGEO(json, parsedRest);
 		}
 
 		return newCommand;

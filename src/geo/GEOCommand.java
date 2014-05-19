@@ -1,22 +1,7 @@
 package geo;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.zip.GZIPInputStream;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import command.Command;
 
@@ -34,10 +19,12 @@ public class GEOCommand extends Command {
 	@Override
 	public response.Response execute() {
 
+		long time = System.nanoTime();
+
 		//"/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt.gz"
-		String tempZipFileLoc = "/home/oi11/oi11msd/edu/programvaruteknik/Projekt/Testfiler/MatrxiFile1.txt.gz";
+		String tempZipFileLoc = "/home/dv12/dv12tkn/Downloads/MatrxiFile" + time + ".txt.gz";
 		//"/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt"
-		String tempFileLoc = "/home/oi11/oi11msd/edu/programvaruteknik/Projekt/Testfiler/MatrxiFile1.txt";
+		String tempFileLoc = "/home/dv12/dv12tkn/Downloads/MatrxiFile" + time + ".txt";
 		ArrayList<GEOFileTuple> infoList = null;
 
 		try {
