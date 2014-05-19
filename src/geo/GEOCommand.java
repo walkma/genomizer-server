@@ -1,4 +1,5 @@
 package geo;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,8 +14,10 @@ import command.Command;
 
 public class GEOCommand extends Command {
 
+	private String body;
 
-	public GEOCommand() {
+	public GEOCommand(String body) {
+		this.body = body;
 	}
 
 	@Override
@@ -25,42 +28,47 @@ public class GEOCommand extends Command {
 	@Override
 	public Response execute() {
 
+		String fileID = body.substring(11, body.length() - 2);
 		long time = System.nanoTime();
 
-		//"/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt.gz"
-		String tempZipFileLoc = "/home/dv12/dv12tkn/MatrxiFile" + time + ".txt.gz";
-		//"/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt"
-		String tempFileLoc = "/home/dv12/dv12tkn/MatrxiFile" + time + "txt";
+		// "/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt.gz"
+		String tempZipFileLoc = "/home/dv12/dv12tkn/MatrxiFile" + time
+				+ ".txt.gz";
+		// "/home/pvt/tempfiles/Matrixfile" + System.nanoTime() + ".txt"
+		String tempFileLoc = "/home/dv12/dv12tkn/MatrxiFile" + time + ".txt";
 		ArrayList<GEOFileTuple> infoList = null;
 
+		GetGEOResponse geoResponse = null;
+
 		try {
-		String matrixFileURL = GEOAccessor.getMatrixFileURL("GSE47236");
-		GEOAccessor.downloadMatrixFile(matrixFileURL, tempZipFileLoc);
+			String matrixFileURL = GEOAccessor.getMatrixFileURL(fileID);
+			GEOAccessor.downloadMatrixFile(matrixFileURL, tempZipFileLoc);
 
-		GEOAccessor.gunzipFile(tempZipFileLoc, tempFileLoc);
+			GEOAccessor.gunzipFile(tempZipFileLoc, tempFileLoc);
 
-		infoList = TXTParser.readFile(tempFileLoc);
-		File file = new File(tempFileLoc);
-		file.delete();
+			infoList = TXTParser.readFile(tempFileLoc);
+			File file = new File(tempFileLoc);
+			file.delete();
+			geoResponse = new GetGEOResponse(infoList, 200);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return new GetGEOResponse(infoList);
+		return geoResponse;
 	}
 
-    public static String toPrettyFormat(String jsonString)
-    {
-        JsonParser parser = new JsonParser();
-        JsonObject json = parser.parse(jsonString).getAsJsonObject();
+	public static String toPrettyFormat(String jsonString) {
+		JsonParser parser = new JsonParser();
+		JsonObject json = parser.parse(jsonString).getAsJsonObject();
 
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String prettyJson = gson.toJson(json);
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String prettyJson = gson.toJson(json);
 
-        return prettyJson;
-    }
+		return prettyJson;
+	}
 
 	public static void main(String[] args) {
-		GEOCommand geo = new GEOCommand();
+		GEOCommand geo = new GEOCommand("GSE47236");
 		String temp = geo.execute().getBody();
 
 		System.out.println(toPrettyFormat(temp));

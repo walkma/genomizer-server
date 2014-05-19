@@ -300,8 +300,7 @@ public class CommandFactory {
 	}
 
 	public Command createSearchGEO(String json, String restful) {
-		System.out.println(restful);
-		return new GEOCommand();
+		return new GEOCommand(json);
 	}
 
 }
