@@ -4,11 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.Executor;
 
@@ -43,6 +38,7 @@ public class Doorman {
 		httpServer.createContext("/user", createHandler());
 		httpServer.createContext("/process", createHandler());
 		httpServer.createContext("/sysadm", createHandler());
+		httpServer.createContext("/geo", createHandler());
 		HttpContext context = httpServer.createContext("/transfer", createHandler());
 		//context.getFilters().add(new ParameterFilter());
 
@@ -67,9 +63,7 @@ public class Doorman {
 		return new HttpHandler() {
 			@Override
 			public void handle(HttpExchange exchange) throws IOException {
-
 				System.out.println("\n-----------------\nNEW EXCHANGE: " + exchange.getHttpContext().getPath());
-
 				switch(exchange.getRequestMethod()) {
 				case "GET":
 					switch(exchange.getHttpContext().getPath()) {
@@ -144,6 +138,10 @@ public class Doorman {
 //						PostTransferCommand postTransferCommand = new PostTransferCommand(exchange);
 //						postTransferCommand.execute();
 						break;
+					case "/geo":
+						System.out.println("GEO!");
+						exchange(exchange, CommandType.GET_GEO_ID);
+						break;
 					}
 					break;
 
@@ -179,7 +177,6 @@ public class Doorman {
 		//TEMP
 
 		//ENDTEMP
-
 		InputStream bodyStream = exchange.getRequestBody();
 		Scanner scanner = new Scanner(bodyStream);
 		String body = "";
@@ -195,6 +192,7 @@ public class Doorman {
 				if(type == CommandType.GET_TRANSFER_COMMAND) {
 					Headers h = exchange.getResponseHeaders();
 					h.set("Content-Type", "application/octet-stream");
+					System.out.println("Like a boss!");
 				}
 			} catch(NullPointerException e) {
 				System.out.println("Unauthorized request!");
