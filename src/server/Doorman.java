@@ -1,13 +1,15 @@
 package server;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.Executor;
@@ -180,6 +182,7 @@ public class Doorman {
 
 		//ENDTEMP
 
+
 		InputStream bodyStream = exchange.getRequestBody();
 		Scanner scanner = new Scanner(bodyStream);
 		String body = "";
@@ -213,23 +216,78 @@ public class Doorman {
 			System.out.println("FOUND LOGIN COMMAND.");
 		}
 		if(type == CommandType.POST_TRANSFER_COMMAND) {
-			byte[] temp = new byte[1024];
+			//String length= exchange.getRequestHeaders().getFirst("length");
+			String length = exchange.getRequestHeaders().getFirst("Content-length");
+			//String length = params.get("Content-length");
+			//System.out.println("lenght = " + length);
+			BufferedInputStream bis = new BufferedInputStream(bodyStream);
+			System.out.println("length = " + length);
+
+			//int len = Integer.parseInt(length);
+
+			byte[] byteRead = new byte[1];
+			byte[] byteArr = new byte[1024];
+			byte[] fileArr = null;// new byte[len];
+			int bytesRead = 0;
+
+			int i = 0;
+			int nrOfBytes = 0;
+
+			boolean first = true;
+
 			try {
-				bodyStream.read(temp);
-				body = new String(temp);
-				//FileUpload fileUpload = new FileUpload();
-//				String boundary = exchange.getRequestHeaders().getFirst("Content-Type");
-//				boundary = boundary.split("boundary=")[1];
-//				boundary = boundary.concat("\n"+body);
-//				System.out.println("BOUNDARY: " + boundary);
-//				Map<String, Object> params =
-//				           (Map<String, Object>)exchange.getAttribute("parameters");
-//				System.out.println("uploadfile: " + params.get("name"));
-//				System.out.println("path: " + params.get(""));
+				while((bytesRead = bis.read(byteRead, 0, 1)) != -1) {
+					if(byteRead[0] == '\r') {
+
+
+						String line = new String(byteArr);
+						byteArr = new byte[1024];
+
+						System.out.println("string2: " + line);
+
+						if(line.indexOf("Content-") == -1 && !first) {
+							i = 0;
+							System.out.println("string: " + line);
+							bis.read(byteRead, 0, 1);
+
+							int len = Integer.parseInt(length) - nrOfBytes;
+							System.out.println("nrofbytes: " + nrOfBytes);
+							System.out.println("length11 = " + len);
+							fileArr = new byte[len];
+
+							for(int k = 0; k < len; k++) {
+								bis.read(byteRead, 0, 1);
+								fileArr[k] = byteRead[0];
+							}
+
+							//System.out.println("file: " + new String(fileArr));
+							break;
+						} else {
+							if(first) {
+								System.out.println("boundary length = " + i);
+								System.out.println("string calculated: " + line);
+								nrOfBytes += (nrOfBytes + 4 * 2 + 1);
+							}
+							i = 0;
+							first = false;
+						}
+					} else {
+						byteArr[i++] = byteRead[0];
+						nrOfBytes++;
+					}
+				}
+
+				File file = new File("/home/c11/c11vlg/Downloads/uploadTest.txt");
+
+				FileOutputStream fos = new FileOutputStream(file);
+				fos.write(fileArr);
+				fos.close();
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 		} else {
 			while(scanner.hasNext()) {
 				body = body.concat(" " + scanner.next());
@@ -285,5 +343,18 @@ public class Doorman {
 			os.close();
 		}
 		System.out.println("END OF EXCHANGE\n------------------");
+	}
+
+	private Map<String, String> queryToMap(String query){
+	    Map<String, String> result = new HashMap<String, String>();
+	    for (String param : query.split("&")) {
+	        String pair[] = param.split("=");
+	        if (pair.length>1) {
+	            result.put(pair[0], pair[1]);
+	        }else{
+	            result.put(pair[0], "");
+	        }
+	    }
+	    return result;
 	}
 }

@@ -87,8 +87,8 @@ public class ConversionHandler {
 			break;
 		case "sgr":
 			typeConverter.bedToSgr(outfileBed);
-			File file = new File(outfileBed);
-			file.delete();
+//			File file = new File(outfileBed);
+//			file.delete();
 			break;
 		case "bed":
 			break;
