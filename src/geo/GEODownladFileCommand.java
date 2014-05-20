@@ -35,7 +35,7 @@ public class GEODownladFileCommand extends Command{
 
 	@Expose
 	private String url;
-	
+
 	/**
 	 * Validates the request by checking
 	 * the attributes. No attribute can be null
@@ -51,14 +51,14 @@ public class GEODownladFileCommand extends Command{
 		return true;
 	}
 
-	
+
 	@Override
 	public Response execute() {
 		try {
 			String sraURL = GEOFileDownloader.getSRAFromDir(url);
-			
-			
-			
+
+
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
