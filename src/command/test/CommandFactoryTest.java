@@ -1,10 +1,9 @@
 package command.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import command.Command;
 import command.CommandFactory;
 
 public class CommandFactoryTest {

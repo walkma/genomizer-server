@@ -1,11 +1,10 @@
 package command;
 
-import authentication.Authenticate;
-import response.LoginResponse;
 import response.LogoutResponse;
 import response.MinimalResponse;
 import response.Response;
 import response.StatusCode;
+import authentication.Authenticate;
 
 
 

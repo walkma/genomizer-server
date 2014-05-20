@@ -25,7 +25,7 @@ public class TXTParser {
 			e.printStackTrace();
 		}
 
-		int i = 0;
+		int i = 1;
 		if (true) {
 			System.out.println(infoList.get(i).seriesRelation);
 			System.out.println(infoList.get(i).seriesSampleTaxid);
@@ -42,10 +42,10 @@ public class TXTParser {
 			System.out.println(infoList.get(i).seriesContactEmail);
 			System.out.println(infoList.get(i).seriesContactName);
 			System.out.println(infoList.get(i).seriesSampleId);
-			System.out.println(infoList.get(i).seriesContributors[0]);
+			System.out.println(infoList.get(0).seriesContributors[0]);
 			System.out.println(infoList.get(i).seriesType);
 			System.out.println(infoList.get(i).seriesOverallDesign);
-			System.out.println(infoList.get(i).seriesSummary[0]);
+			System.out.println(infoList.get(0).seriesSummary[0]);
 			System.out.println(infoList.get(i).seriesWebLink);
 			System.out.println(infoList.get(i).seriesLastUpdateDate);
 			System.out.println(infoList.get(i).seriesSubmissionDate);
@@ -88,6 +88,19 @@ public class TXTParser {
 		}
 	}
 
+	/**
+	 * Takes a path to a .txt file, will then parse the file and create an
+	 * ArrayList with GEOFileTuples. The first GEOFileTuple in the list contains
+	 * all the information that is common for all the files. The other files
+	 * contains information for individual samples.
+	 *
+	 * @param filePath
+	 *            The path to the .txt to parse (A series_matrix file from the
+	 *            GEO database)
+	 * @return An ArrayList with objects representing the information in the
+	 *         .txt file.
+	 * @throws IOException
+	 */
 	public static ArrayList<GEOFileTuple> readFile(String filePath)
 			throws IOException {
 		ArrayList<GEOFileTuple> infoList = new ArrayList<GEOFileTuple>();
@@ -101,10 +114,8 @@ public class TXTParser {
 		while (line != null) {
 
 			/*
-			 * +------------------------------------+
-			 * |	       !!  WARNING  !!			|
-			 * |		MASSIVE IF-ELSE AHEAD		|
-			 * |		PROCEED WITH CAUTION		|
+			 * +------------------------------------+ | !! WARNING !! | |
+			 * MASSIVE IF-ELSE AHEAD | | PROCEED WITH CAUTION |
 			 * +------------------------------------+
 			 */
 			if (equalsSplit(line, "!Series_title")) {
@@ -410,7 +421,7 @@ public class TXTParser {
 								+ "\n"
 								+ formatString(temp[i + 1]);
 					} else {
-						infoList.get(i).sampleMolecule = formatString(temp[i + 1]);
+						infoList.get(i).sampleContactInstitute = formatString(temp[i + 1]);
 					}
 				}
 			} else if (equalsSplit(line, "!Sample_contact_address")) {
@@ -512,8 +523,9 @@ public class TXTParser {
 					if (infoList.get(i).sampleRelation != null) {
 						infoList.get(i).sampleRelation = infoList.get(i).sampleRelation
 								+ "\n" + formatString(temp[i + 1]);
+
 					} else {
-						infoList.get(i).sampleMolecule = formatString(temp[i + 1]);
+						infoList.get(i).sampleRelation = formatString(temp[i + 1]);
 					}
 				}
 			} else if (equalsSplit(line, "!Sample_data_processing")) {
@@ -597,6 +609,7 @@ public class TXTParser {
 		if (strings.length == 0) {
 			return "";
 		}
+
 		return strings[strings.length - 1];
 	}
 
@@ -605,6 +618,16 @@ public class TXTParser {
 		return str1.split("\t")[0].compareTo(str2) == 0;
 	}
 
+	/**
+	 * Will take an ftp-url and iterate through the folders until it finds a
+	 * .sra file and then return a new url pointing directly to that file.
+	 * (Note: this will take about two seconds for one url.)
+	 *
+	 * @param url
+	 *            The url to the directory containing more directorys
+	 * @return The full url to the .sra file
+	 * @throws IOException
+	 */
 	public static String getSRAFromDir(String url) throws IOException {
 		url = url + "/";
 		// This will get the subfolders from the url

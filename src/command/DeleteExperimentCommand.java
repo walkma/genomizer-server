@@ -1,15 +1,12 @@
 package command;
 
-import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
-import database.DatabaseAccessor;
-import database.Experiment;
 import response.MinimalResponse;
 import response.Response;
 import response.StatusCode;
 import server.DatabaseSettings;
+import database.DatabaseAccessor;
 
 /**
  * Class used to represent a remove experiment command.

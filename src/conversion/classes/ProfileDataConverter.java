@@ -1,6 +1,5 @@
 package conversion.classes;
 
-import process.classes.Executor;
 
 
 public class ProfileDataConverter {

@@ -45,7 +45,8 @@ public class Doorman {
 		httpServer.createContext("/user", createHandler());
 		httpServer.createContext("/process", createHandler());
 		httpServer.createContext("/sysadm", createHandler());
-		HttpContext context = httpServer.createContext("/transfer", createHandler());
+		httpServer.createContext("/geo", createHandler());
+//		HttpContext context = httpServer.createContext("/transfer", createHandler());
 		//context.getFilters().add(new ParameterFilter());
 
 		httpServer.setExecutor(new Executor() {
@@ -69,9 +70,7 @@ public class Doorman {
 		return new HttpHandler() {
 			@Override
 			public void handle(HttpExchange exchange) throws IOException {
-
 				System.out.println("\n-----------------\nNEW EXCHANGE: " + exchange.getHttpContext().getPath());
-
 				switch(exchange.getRequestMethod()) {
 				case "GET":
 					switch(exchange.getHttpContext().getPath()) {
@@ -146,6 +145,10 @@ public class Doorman {
 //						PostTransferCommand postTransferCommand = new PostTransferCommand(exchange);
 //						postTransferCommand.execute();
 						break;
+					case "/geo":
+						System.out.println("GEO!");
+						exchange(exchange, CommandType.GET_GEO_ID);
+						break;
 					}
 					break;
 
@@ -182,7 +185,6 @@ public class Doorman {
 
 		//ENDTEMP
 
-
 		InputStream bodyStream = exchange.getRequestBody();
 		Scanner scanner = new Scanner(bodyStream);
 		String body = "";
@@ -198,6 +200,7 @@ public class Doorman {
 				if(type == CommandType.GET_TRANSFER_COMMAND) {
 					Headers h = exchange.getResponseHeaders();
 					h.set("Content-Type", "application/octet-stream");
+					System.out.println("Like a boss!");
 				}
 			} catch(NullPointerException e) {
 				System.out.println("Unauthorized request!");
@@ -308,6 +311,7 @@ public class Doorman {
 		}
 		System.out.println("BEFORE PROCESS COMMAND...");
 		try {
+			System.out.println("Jodu, det va den biten " + exchange.getRequestURI().toString());
 			response = commandHandler.processNewCommand(body, exchange.getRequestURI().toString(), username, type);
 		} catch(Exception e ) {
 			e.printStackTrace();
@@ -343,18 +347,5 @@ public class Doorman {
 			os.close();
 		}
 		System.out.println("END OF EXCHANGE\n------------------");
-	}
-
-	private Map<String, String> queryToMap(String query){
-	    Map<String, String> result = new HashMap<String, String>();
-	    for (String param : query.split("&")) {
-	        String pair[] = param.split("=");
-	        if (pair.length>1) {
-	            result.put(pair[0], pair[1]);
-	        }else{
-	            result.put(pair[0], "");
-	        }
-	    }
-	    return result;
 	}
 }

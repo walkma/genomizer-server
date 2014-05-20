@@ -1,6 +1,8 @@
 package command;
 
-import java.util.ArrayList;
+import geo.GEOCommand;
+
+import java.sql.SQLException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -295,6 +297,10 @@ public class CommandFactory {
 	public Command createPostTransferCommand(String json, String restful) {
 		int index = restful.indexOf("=");
 		return new PostTransferCommand(json, restful.substring(index+1));
+	}
+
+	public Command createSearchGEO(String json, String restful) {
+		return new GEOCommand(json);
 	}
 
 }

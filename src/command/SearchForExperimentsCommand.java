@@ -2,23 +2,17 @@ package command;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.annotations.Expose;
 import java.net.URLDecoder;
-
-import database.DatabaseAccessor;
-import database.Experiment;
+import java.sql.SQLException;
+import java.util.List;
 
 import response.MinimalResponse;
 import response.Response;
 import response.SearchResponse;
 import response.StatusCode;
 import server.DatabaseSettings;
+import database.DatabaseAccessor;
+import database.Experiment;
 
 /**
  * Class used to represent a command of the type Search.
