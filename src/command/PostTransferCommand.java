@@ -52,14 +52,14 @@ public class PostTransferCommand extends Command {
 			System.out.println("path= " + path);
 
 			// TODO: REMOVE
-			path = "/home/c11/c11vlg/Downloads/uploadTest.txt";
+			path = "/home/c11/c11vlg/Downloads/uploadTest.jpg";
 
 			System.out.println("path = " + path);
 
-			File file = new File(path);
+			//File file = new File(path);
 
 
-			FileOutputStream fos = new FileOutputStream(file);
+			//FileOutputStream fos = new FileOutputStream(file);
 
 //			int len = Integer.parseInt(exchange.getRequestHeaders().getFirst(
 //					"Content-Length"));
@@ -68,14 +68,38 @@ public class PostTransferCommand extends Command {
 //			bis.read(buffer, 0, len);
 
 
-			String[] bodyarr = body.split(" Content");
-			String boundary = bodyarr[0];
-			bodyarr = body.split("binary ");
-			String filestring = bodyarr[1].split(boundary)[0];
+//			String boundary = body.split(System.getProperty("line.separator"))[0];
+//			String filename = body.split("filename=\"")[1].split("\"")[0];
+//			String bodyarr[] = body.split(System.getProperty("line.separator"));
+//			System.out.println("boundary: " + boundary);
+//
+//			String filestring = "";
+//
+//			boolean readFirstNewline = false;
+//
+//			for(int i = 0; i < bodyarr.length; i++) {
+//				if(bodyarr[i].indexOf("Content-") != -1 || bodyarr[i].equals(boundary)) {
+//					//System.out.println("content: " + bodyarr[i]);
+//				} else {
+//					if(!readFirstNewline && bodyarr[i].equals("\r")) {
+//						System.out.println("first newline");
+//						readFirstNewline = true;
+//					} else if((i+1) < bodyarr.length && bodyarr[i + 1].equals(boundary + "--") && bodyarr[i].equals("\r")) {
+//						break;
+//					} else {
+//						filestring = filestring.concat(bodyarr[i]);
+//						System.out.println("bodyarr: " + bodyarr[i]);
+//					}
+//				}
+//
+//			}
+//
+//
+//			System.out.println("filename: " + filename);
+//			System.out.println("file: " + filestring);
+			System.out.println("body: " + body);
 
-			System.out.println("file: " + filestring);
-
-			fos.write(filestring.getBytes());
+			//fos.write(body.getBytes());
 //
 //			System.out.println("BOUNDARY: " + boundary);
 //
@@ -94,8 +118,8 @@ public class PostTransferCommand extends Command {
 
 //			String qry = new String(buffer, "UTF-8");
 
-			System.out.println("MESSAGE START:\n\n");
-			System.out.println(body + "\n");
+//			System.out.println("MESSAGE START:\n\n");
+//			System.out.println(body + "\n");
 
 			//OutputStream bos = exchange.getResponseBody();
 
@@ -105,7 +129,7 @@ public class PostTransferCommand extends Command {
 			//
 //			bos.flush();
 //			bos.close();
-			fos.close();
+			//fos.close();
 
 			response = new PostTransferResponse();
 //			bis.close();
@@ -113,12 +137,6 @@ public class PostTransferCommand extends Command {
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return response;
 
