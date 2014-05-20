@@ -75,14 +75,26 @@ public class GEODownloadFileCommand extends Command{
 			filetype = 4;
 			break;
 		}
-//		FileTuple filetuple = dbaccessor.addNewFile(experimentID, filetype, fileName, null, metaData, author, uploader, isPrivate, grVersion);
-//		String path = filetuple.path;
 
 		try {
 			String sraURL = url;
+			int index;
+			String theFileName;
 			if(url.endsWith("/")) {
 				sraURL = GEOFileDownloader.getSRAFromDir("ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/sra/SRX%2FSRX287%2FSRX287596/");
+				index = sraURL.lastIndexOf('/');
+				theFileName = sraURL.substring(index + 1);
+				index = theFileName.lastIndexOf('.');
+				theFileName = theFileName.substring(0, index) + ".fastq";
+			} else {
+				index = sraURL.lastIndexOf('/');
+				theFileName = sraURL.substring(index);
 			}
+
+
+//			FileTuple filetuple = dbaccessor.addNewFile(experimentID, filetype, theFileName, null, metaData, author, uploader, isPrivate, grVersion);
+//			String path = filetuple.path;
+
 
 			GEOFileDownloader.downloadFile(sraURL, "/var/www/test/");
 
