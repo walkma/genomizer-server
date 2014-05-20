@@ -15,11 +15,11 @@ import database.DatabaseAccessor;
 public class GetTransferCommand extends Command {
 
 	private BufferedInputStream bis;
-	private String fileID;
+	private String filePath;
 
-	public GetTransferCommand(String fileID) {
+	public GetTransferCommand(String filePath) {
 		// this.fileID = fileID;
-		this.fileID = fileID;
+		this.filePath = filePath;
 	}
 
 	public Response execute() {
@@ -29,48 +29,30 @@ public class GetTransferCommand extends Command {
 		GetTransferResponse response = null;
 
 		try {
-			db = new DatabaseAccessor(DatabaseSettings.username,
-					DatabaseSettings.password, DatabaseSettings.host,
-					DatabaseSettings.database);
+//			db = new DatabaseAccessor(DatabaseSettings.username,
+//					DatabaseSettings.password, DatabaseSettings.host,
+//					DatabaseSettings.database);
 
 
-			System.out.println("fileID = " + fileID);
-			String path = db.getFilePath(fileID);
-			System.out.println("path= " + path);
+//			System.out.println("fileID = " + fileID);
+//			String path = db.getFilePath(fileID);
+//			System.out.println("path= " + path);
 
-			// TODO: REMOVE
-			path = "/home/c11/c11vlg/Downloads/test3.txt";
 
-			File file = new File(path);
+			System.out.println("download path: " + filePath);
+
+			File file = new File(filePath);
 			byte[] bytearray = new byte[(int) file.length()];
 			FileInputStream fis;
 			fis = new FileInputStream(file);
 
-			bis = new BufferedInputStream(fis);
-			bis.read(bytearray, 0, bytearray.length);
-//
-//			Headers h = exchange.getResponseHeaders();
-//			h.set("Content-Type", "application/octet-stream");
-
-			//exchange.sendResponseHeaders(200, file.length());
-
-//			OutputStream os = exchange.getResponseBody();
-//			os.write(bytearray, 0, bytearray.length);
-//			os.close();
-			fis.close();
-
-			String str = new String(bytearray, "UTF-8");
-
-			response = new GetTransferResponse(str);
+			response = new GetTransferResponse(fis, file.length());
 			System.out.println("Sending file response");
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

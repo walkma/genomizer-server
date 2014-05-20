@@ -3,6 +3,7 @@ package server;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -14,9 +15,11 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.Executor;
 
+import response.GetTransferResponse;
 import response.MinimalResponse;
 import response.Response;
 import response.StatusCode;
+import sun.misc.IOUtils;
 import authentication.Authenticate;
 
 import com.sun.net.httpserver.Headers;
@@ -24,8 +27,12 @@ import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
+
 import command.CommandHandler;
 import command.CommandType;
+import command.GetTransferCommand;
 
 public class Doorman {
 
@@ -90,8 +97,6 @@ public class Doorman {
 						break;
 					case "/transfer":
 						exchange(exchange, CommandType.GET_TRANSFER_COMMAND);
-//						GetTransferCommand getTransferCommand = new GetTransferCommand(exchange);
-//						getTransferCommand.execute();
 						break;
 					}
 					break;
@@ -141,8 +146,6 @@ public class Doorman {
 						break;
 					case "/transfer":
 						exchange(exchange, CommandType.POST_TRANSFER_COMMAND);
-//						PostTransferCommand postTransferCommand = new PostTransferCommand(exchange);
-//						postTransferCommand.execute();
 						break;
 					case "/geo":
 						System.out.println("GEO!");
@@ -218,8 +221,7 @@ public class Doorman {
 			System.out.println("FOUND LOGIN COMMAND.");
 		}
 		if(type == CommandType.POST_TRANSFER_COMMAND) {
-			body = getBinaryDataAsString(bodyStream, exchange);
-
+			body = parseFileFromBody(bodyStream, exchange);
 		} else {
 			while(scanner.hasNext()) {
 				body = body.concat(" " + scanner.next());
@@ -263,76 +265,120 @@ public class Doorman {
 
 		} else {
 
-			body = response.getBody();
-			exchange.sendResponseHeaders(response.getCode(), body.getBytes().length);
 
 			OutputStream os = exchange.getResponseBody();
-			os.write(body.getBytes());
+
+			if(response instanceof GetTransferResponse) {
+				exchange.sendResponseHeaders(response.getCode(), ((GetTransferResponse)response).getFileSize());
+				FileInputStream fis = ((GetTransferResponse)response).getFileBody();
+				byte[] buffer = new byte[1024];
+			    int bytesRead;
+			    while ((bytesRead = fis.read(buffer)) != -1)
+			    {
+			        os.write(buffer, 0, bytesRead);
+			    }
+
+			} else {
+
+				body = response.getBody();
+				exchange.sendResponseHeaders(response.getCode(), body.getBytes().length);
+				body = response.getBody();
+				os.write(body.getBytes());
+
+
+			}
 			os.flush();
 			os.close();
+
+
 		}
 		System.out.println("END OF EXCHANGE\n------------------");
 	}
 
-	private String getBinaryDataAsString(InputStream inputStream, HttpExchange exchange) {
-		//String length= exchange.getRequestHeaders().getFirst("length");
+	/**
+	 * Parses data from a multipart/form-data and saves the content to a file.
+	 * @param inputStream The stream containing the body of the multipart/form-data.
+	 * @param exchange HttpExchange object.
+	 * @return A string with the response code.
+	 */
+	private String parseFileFromBody(InputStream inputStream, HttpExchange exchange) {
+
+		String filePath = exchange.getRequestURI().toString().split("=")[1];
+
+		System.out.println("filepath = " + filePath);
 		String length = exchange.getRequestHeaders().getFirst("Content-length");
-		String boundary = exchange.getRequestHeaders().getFirst("Boundary");
-		System.out.println("boundary22: " + boundary);
-		//String length = params.get(" Content-length");
-		//System.out.println("lenght = " + length);
 		BufferedInputStream bis = new BufferedInputStream(inputStream);
-		System.out.println("length = " + length);
 
 		String body = null;
-
-		//int len = Integer.parseInt(length);
-
 		byte[] byteRead = new byte[1];
 		byte[] byteArr = new byte[1024];
-		byte[] fileArr = null;// new byte[len];
-		int bytesRead = 0;
-
+		byte[] fileArr = null;
 		int i = 0;
 		int nrOfBytes = 0;
-
 		boolean first = true;
 
-		try {
-			while((bytesRead = bis.read(byteRead, 0, 1)) != -1) {
-				if(byteRead[0] == '\r') {
+		File file = new File(filePath);
+		FileOutputStream fos = null;
 
+		try {
+			fos = new FileOutputStream(file);
+		} catch (FileNotFoundException e1) {
+			body = "400";
+			return body;
+		}
+
+		try {
+			while(bis.read(byteRead, 0, 1) != -1) {
+				if(byteRead[0] == '\r') {
 
 					String line = new String(byteArr);
 					byteArr = new byte[1024];
 
-					System.out.println("string2: " + line);
-
 					if(line.indexOf("Content-") == -1 && !first) {
 						i = 0;
-						System.out.println("string: " + line);
 						bis.read(byteRead, 0, 1);
 
 						int len = Integer.parseInt(length) - nrOfBytes;
-						System.out.println("nrofbytes: " + nrOfBytes);
-						System.out.println("length11 = " + len);
-						fileArr = new byte[len];
 
-						for(int k = 0; k < len; k++) {
-							bis.read(byteRead, 0, 1);
-							fileArr[k] = byteRead[0];
+						int bytes = 4096;
+						fileArr = new byte[bytes];
+
+						while(len > 0) {;
+							if(len > bytes) {
+								fileArr = new byte[bytes];
+								int temp = 0;
+								int tempBytes = bytes;
+								//Makes sure 'bytes' number of bytes are read.
+								while((temp = bis.read(fileArr, temp, tempBytes)) != tempBytes) {
+									tempBytes -= temp;
+								}
+								len -= bytes;
+
+							} else {
+								fileArr = new byte[len];
+								bis.read(fileArr, 0, len);
+								len = -1;
+							}
+
+							try {
+								fos.write(fileArr);
+							} catch (FileNotFoundException e) {
+								body = "404";
+								return body;
+							} catch (IOException e) {
+								body = "400";
+								return body;
+							}
 						}
-
-						//System.out.println("file: " + new String(fileArr));
+						fos.close();
 						break;
 					} else {
 						if(first) {
-							System.out.println("boundary length = " + i);
-							System.out.println("string calculated: " + line);
-							nrOfBytes += (nrOfBytes + 4 * 2 + 1);
+							nrOfBytes += (nrOfBytes + 8);
 						}
 						i = 0;
 						first = false;
+						nrOfBytes++;
 					}
 				} else {
 					byteArr[i++] = byteRead[0];
@@ -340,17 +386,15 @@ public class Doorman {
 				}
 			}
 
-			File file = new File("/home/c11/c11vlg/Downloads/uploadTest.txt");
-
-			FileOutputStream fos = new FileOutputStream(file);
-			fos.write(fileArr);
-			fos.close();
+			body = new String(fileArr);
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			body = "400";
+			return body;
 		}
 
-		return "hej";
+		body = "200";
+
+		return body;
 	}
 }
