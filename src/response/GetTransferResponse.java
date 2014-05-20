@@ -7,8 +7,8 @@ public class GetTransferResponse extends Response {
 	FileInputStream fileInputStream;
 	long fileSize;
 
-	public GetTransferResponse(FileInputStream fileInputStream, long fileSize) {
-		code = 200;
+	public GetTransferResponse(FileInputStream fileInputStream, long fileSize, int code) {
+		this.code = code;
 		this.fileInputStream = fileInputStream;
 		this.fileSize = fileSize;
 	}
