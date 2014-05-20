@@ -2,7 +2,6 @@ package geo;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,17 +24,14 @@ public class GEOCommand extends Command {
 
 	@Override
 	public boolean validate() {
-		String fileID = body.substring(11, body.length() - 2);
-		String url = "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc="
-				+ fileID + "&form=html";
-		boolean valid = false;
 		try {
-			new URL(url);
-			valid = true;
-		} catch (MalformedURLException e) {
-			valid = false;
+			String fileID = body.substring(11, body.length() - 2);
+			String matrixFileURL = GEOAccessor.getMatrixFileURL(fileID);
+			new URL(matrixFileURL).openStream();
+			return true;
+		} catch (IOException e) {
+			return false;
 		}
-		return valid;
 	}
 
 	@Override
