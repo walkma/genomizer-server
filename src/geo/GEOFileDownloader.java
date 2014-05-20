@@ -1,10 +1,15 @@
 package geo;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,8 +21,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 public class GEOFileDownloader {
-
-
 
 	public static String getSRAFromDir(String url) throws IOException {
 		url = url + "/";
@@ -42,36 +45,57 @@ public class GEOFileDownloader {
 		return url;
 	}
 
-	public static void downloadFile(String url, String tempFileLoc) throws MalformedURLException, IOException {
+	public static void downloadFile(String url, String tempFileLoc)
+			throws MalformedURLException, IOException {
 
-        // new HttpClient
-        HttpClientBuilder hcBuilder = HttpClients.custom();
-        CloseableHttpClient httpClient = hcBuilder.build();
+		// new HttpClient
+		HttpClientBuilder hcBuilder = HttpClients.custom();
+		CloseableHttpClient httpClient = hcBuilder.build();
 
-        // post header
-		HttpPost httpPost = new HttpPost("scratchy.cs.umu.se:8000/download_from_geo.php?url=" + url + "&path=" + tempFileLoc);
+		// post header
+		HttpPost httpPost = new HttpPost(
+				"scratchy.cs.umu.se:8000/download_from_geo.php?url=" + url
+						+ "&path=" + tempFileLoc);
 
 		try {
-            HttpResponse response;
-            // execute HTTP post request
-            response = httpClient.execute(httpPost);
-            HttpEntity resEntity = response.getEntity();
-            System.out.println("Response code: "
-                    + response.getStatusLine().getStatusCode());
-            if (resEntity != null) {
+			HttpResponse response;
+			// execute HTTP post request
+			response = httpClient.execute(httpPost);
+			HttpEntity resEntity = response.getEntity();
+			System.out.println("Response code: "
+					+ response.getStatusLine().getStatusCode());
+			if (resEntity != null) {
 
-                String responseStr = EntityUtils.toString(resEntity).trim();
-                System.out.println("Response: " + responseStr);
-            }
-        } catch (ClientProtocolException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch(FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+				String responseStr = EntityUtils.toString(resEntity).trim();
+				System.out.println("Response: " + responseStr);
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
+	}
+
+	public static void downloadFileDirect(String url, String filePath,
+			String fileName) throws IOException, InterruptedException {
+		URL urlObject = new URL(url);
+		ReadableByteChannel rbc = Channels.newChannel(urlObject.openStream());
+		FileOutputStream fos = new FileOutputStream(filePath);
+		fos.getChannel().transferFrom(rbc, 0, 4096);
+		fos.close();
+
+		Process p = Runtime.getRuntime().exec(
+				"fastq-dump " + filePath + " -O " + filePath);
+		p.waitFor();
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				p.getInputStream()));
+		String line = "";
+		while ((line = reader.readLine()) != null) {
+			System.out.println(line);
+		}
 	}
 }

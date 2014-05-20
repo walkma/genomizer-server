@@ -2,11 +2,10 @@ package geo;
 
 import java.io.IOException;
 
-import com.google.gson.annotations.Expose;
-
 import response.Response;
+
+import com.google.gson.annotations.Expose;
 import command.Command;
-import database.DatabaseAccessor;
 
 public class GEODownloadFileCommand extends Command{
 
@@ -97,6 +96,7 @@ public class GEODownloadFileCommand extends Command{
 
 
 			GEOFileDownloader.downloadFile(sraURL, "/var/www/test/");
+//			GEOFileDownloader.downloadFileDirect(sraURL, "/var/www/test", theFileName);
 
 		} catch (IOException e) {
 			e.printStackTrace();
