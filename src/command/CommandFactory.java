@@ -297,7 +297,7 @@ public class CommandFactory {
 		return new PostTransferCommand(json);
 	}
 
-	public Command createSearchGEO(String json, String restful) {
+	public Command createSearchGEO(String json) {
 		return new GEOCommand(json);
 	}
 
