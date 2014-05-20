@@ -28,13 +28,14 @@ public class GEOCommand extends Command {
 		String fileID = body.substring(11, body.length() - 2);
 		String url = "http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc="
 				+ fileID + "&form=html";
+		boolean valid = false;
 		try {
 			new URL(url);
-			return true;
+			valid = true;
 		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			valid = false;
 		}
-		return false;
+		return valid;
 	}
 
 	@Override
