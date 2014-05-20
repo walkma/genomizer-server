@@ -1,7 +1,15 @@
 package command;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.SQLException;
+
 import response.PostTransferResponse;
 import response.Response;
+import server.DatabaseSettings;
+import database.DatabaseAccessor;
 
 public class PostTransferCommand extends Command {
 
@@ -136,11 +144,8 @@ public class PostTransferCommand extends Command {
 
 	@Override
 	public boolean validate() {
-		if(body == null) {
-			return false;
-		} else {
-			return true;
-		}
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

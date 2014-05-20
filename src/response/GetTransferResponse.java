@@ -1,24 +1,24 @@
 package response;
 
+import java.io.FileInputStream;
+
 public class GetTransferResponse extends Response {
 
-	String fileAsString;
+	FileInputStream fileInputStream;
+	long fileSize;
 
-<<<<<<< HEAD
 	public GetTransferResponse(FileInputStream fileInputStream, long fileSize, int code) {
 		this.code = code;
 		this.fileInputStream = fileInputStream;
 		this.fileSize = fileSize;
-=======
-	public GetTransferResponse(String fileAsString) {
-		code = 200;
-		this.fileAsString = fileAsString;
->>>>>>> branch 'master' of ssh://git@github.com:22/walkma/genomizer-server.git
 	}
 
-	@Override
-	public String getBody() {
-		return fileAsString;
+	public long getFileSize() {
+		return fileSize;
+	}
+
+	public FileInputStream getFileBody() {
+		return fileInputStream;
 	}
 
 }
