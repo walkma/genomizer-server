@@ -1,6 +1,7 @@
 package geo;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -82,9 +83,12 @@ public class GEOFileDownloader {
 	public static void downloadFileDirect(String url, String filePath,
 			String fileName) throws IOException, InterruptedException {
 		URL urlObject = new URL(url);
+		File f = new File(filePath);
+//		f.mkdirs();
+		f.createNewFile();
 		ReadableByteChannel rbc = Channels.newChannel(urlObject.openStream());
 		FileOutputStream fos = new FileOutputStream(filePath);
-		fos.getChannel().transferFrom(rbc, 0, 4096);
+		fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 		fos.close();
 
 		Process p = Runtime.getRuntime().exec(
@@ -96,6 +100,15 @@ public class GEOFileDownloader {
 		String line = "";
 		while ((line = reader.readLine()) != null) {
 			System.out.println(line);
+		}
+	}
+
+	public static void main(String[] args) {
+		try {
+			downloadFileDirect("ftp://ftp-trace.ncbi.nlm.nih.gov/sra/sra-instant/reads/ByExp/sra/SRX%2FSRX287%2FSRX287594/SRR869737/SRR869737.sra",
+					"/home/dv12/dv12tkn/Downloads/SRR869737.sra", "SRR869737.sra");
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }
