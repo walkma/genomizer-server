@@ -1,16 +1,11 @@
 package command;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.SQLException;
 
 import response.GetTransferResponse;
 import response.Response;
-import server.DatabaseSettings;
-import database.DatabaseAccessor;
 
 public class GetTransferCommand extends Command {
 
@@ -23,18 +18,17 @@ public class GetTransferCommand extends Command {
 	public Response execute() {
 
 
+		File file = new File(filePath);
 
-			File file = new File(filePath);
+		FileInputStream fis = null;
+		GetTransferResponse response;
+		try {
+			fis = new FileInputStream(file);
+		} catch (FileNotFoundException e) {
+			response = new GetTransferResponse(null, 0, 404);
+		}
 
-			FileInputStream fis = null;
-			GetTransferResponse response;
-			try {
-				fis = new FileInputStream(file);
-			} catch (FileNotFoundException e) {
-				response = new GetTransferResponse(null, 0, 404);
-			}
-
-			response = new GetTransferResponse(fis, file.length(), 200);
+		response = new GetTransferResponse(fis, file.length(), 200);
 
 		return response;
 	}
