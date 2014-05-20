@@ -289,17 +289,15 @@ public class CommandFactory {
 	}
 
 	public Command createGetTransferCommand(String restful) {
-		int index = restful.indexOf("=");
-		return new GetTransferCommand(restful.substring(index+1));
+		return new GetTransferCommand(restful.split("=")[1]);
 
 	}
 
-	public Command createPostTransferCommand(String json, String restful) {
-		int index = restful.indexOf("=");
-		return new PostTransferCommand(json, restful.substring(index+1));
+	public Command createPostTransferCommand(String json) {
+		return new PostTransferCommand(json);
 	}
 
-	public Command createSearchGEO(String json, String restful) {
+	public Command createSearchGEO(String json) {
 		return new GEOCommand(json);
 	}
 

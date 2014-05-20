@@ -114,9 +114,7 @@ public class TXTParser {
 		while (line != null) {
 
 			/*
-			 * +------------------------------------+ | !! WARNING !! | |
-			 * MASSIVE IF-ELSE AHEAD | | PROCEED WITH CAUTION |
-			 * +------------------------------------+
+			 * WARNING! MASSIVE IF-ELSE AHEAD PROCEED WITH CAUTION
 			 */
 			if (equalsSplit(line, "!Series_title")) {
 				commonGEOInfo.seriesTitle = formatString(line);
@@ -193,351 +191,231 @@ public class TXTParser {
 			} else if (equalsSplit(line, "!Sample_title")) {
 				String[] temp = addNewGEOFile(infoList, line);
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleTitle != null) {
-						infoList.get(i).sampleTitle = infoList.get(i).sampleTitle
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleTitle = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleTitle = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleTitle);
 				}
 			} else if (equalsSplit(line, "!Sample_geo_accession")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleGeoAccession != null) {
-						infoList.get(i).sampleGeoAccession = infoList.get(i).sampleGeoAccession
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleGeoAccession = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleGeoAccession = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleGeoAccession);
 				}
 			} else if (equalsSplit(line, "!Sample_status")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleStatus != null) {
-						infoList.get(i).sampleStatus = infoList.get(i).sampleStatus
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleStatus = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleStatus = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleStatus);
 				}
 			} else if (equalsSplit(line, "!Sample_submission_date")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleSubmissionDate != null) {
-						infoList.get(i).sampleSubmissionDate = infoList.get(i).sampleSubmissionDate
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleSubmissionDate = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleSubmissionDate = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleSubmissionDate);
 				}
 			} else if (equalsSplit(line, "!Sample_last_update_date")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleLastUpdateDate != null) {
-						infoList.get(i).sampleLastUpdateDate = infoList.get(i).sampleLastUpdateDate
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleLastUpdateDate = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleLastUpdateDate = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleLastUpdateDate);
 				}
 			} else if (equalsSplit(line, "!Sample_type")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleType != null) {
-						infoList.get(i).sampleType = infoList.get(i).sampleType
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleType = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleType = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleType);
 				}
 			} else if (equalsSplit(line, "!Sample_channel_count")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleChannelCount != null) {
-						infoList.get(i).sampleChannelCount = infoList.get(i).sampleChannelCount
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleChannelCount = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleChannelCount = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleChannelCount);
 				}
 			} else if (equalsSplit(line, "!Sample_source_name_ch1")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleSourceName != null) {
-						infoList.get(i).sampleSourceName = infoList.get(i).sampleSourceName
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleSourceName = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleSourceName = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleSourceName);
 				}
 			} else if (equalsSplit(line, "!Sample_organism_ch1")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleOrganism != null) {
-						infoList.get(i).sampleOrganism = infoList.get(i).sampleOrganism
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleOrganism = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleOrganism = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleOrganism);
 				}
 			} else if (equalsSplit(line, "!Sample_characteristics_ch1")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleCharacteristics != null) {
-						infoList.get(i).sampleCharacteristics = infoList.get(i).sampleCharacteristics
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleCharacteristics = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleCharacteristics = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleCharacteristics);
 				}
 			} else if (equalsSplit(line, "!Sample_molecule_ch1")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleMolecule != null) {
-						infoList.get(i).sampleMolecule = infoList.get(i).sampleMolecule
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleMolecule = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleMolecule = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleMolecule);
 				}
 			} else if (equalsSplit(line, "!Sample_extract_protocol_ch1")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleExtractProtocol != null) {
-						infoList.get(i).sampleExtractProtocol = infoList.get(i).sampleExtractProtocol
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleExtractProtocol = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleExtractProtocol = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleExtractProtocol);
 				}
 			} else if (equalsSplit(line, "!Sample_taxid_ch1")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleTaxid != null) {
-						infoList.get(i).sampleTaxid = infoList.get(i).sampleTaxid
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleTaxid = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleTaxid = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleTaxid);
 				}
 			} else if (equalsSplit(line, "!Sample_description")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleDescription != null) {
-						infoList.get(i).sampleDescription = infoList.get(i).sampleDescription
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleDescription = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleDescription = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleDescription);
 				}
 			} else if (equalsSplit(line, "!Sample_data_processing")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleDataProcessing != null) {
-						infoList.get(i).sampleDataProcessing = infoList.get(i).sampleDataProcessing
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleDataProcessing = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleDataProcessing = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleDataProcessing);
 				}
 			} else if (equalsSplit(line, "!Sample_platform_id")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).samplePlatformId != null) {
-						infoList.get(i).samplePlatformId = infoList.get(i).samplePlatformId
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).samplePlatformId = formatString(temp[i + 1]);
-					}
+					infoList.get(i).samplePlatformId = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).samplePlatformId);
 				}
 			} else if (equalsSplit(line, "!Sample_contact_name")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleContactName != null) {
-						infoList.get(i).sampleContactName = infoList.get(i).sampleContactName
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleContactName = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleContactName = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleContactName);
 				}
 			} else if (equalsSplit(line, "!Sample_contact_email")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleContactEmail != null) {
-						infoList.get(i).sampleContactEmail = infoList.get(i).sampleContactEmail
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleContactEmail = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleContactEmail = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleContactEmail);
 				}
 			} else if (equalsSplit(line, "!Sample_contact_phone")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleContactPhone != null) {
-						infoList.get(i).sampleContactPhone = infoList.get(i).sampleContactPhone
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleContactPhone = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleContactPhone = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleContactPhone);
 				}
 			} else if (equalsSplit(line, "!Sample_contact_laboratory")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleContactLaboratory != null) {
-						infoList.get(i).sampleContactLaboratory = infoList
-								.get(i).sampleContactLaboratory
-								+ "\n"
-								+ formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleContactLaboratory = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleContactLaboratory = checkLol(
+							infoList, i, temp[i + 1],
+							infoList.get(i).sampleContactLaboratory);
 				}
 			} else if (equalsSplit(line, "!Sample_contact_institute")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleContactInstitute != null) {
-						infoList.get(i).sampleContactInstitute = infoList
-								.get(i).sampleContactInstitute
-								+ "\n"
-								+ formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleContactInstitute = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleContactInstitute = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleContactInstitute);
 				}
 			} else if (equalsSplit(line, "!Sample_contact_address")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleContactAddress != null) {
-						infoList.get(i).sampleContactAddress = infoList.get(i).sampleContactAddress
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleContactAddress = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleContactAddress = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleContactAddress);
 				}
 			} else if (equalsSplit(line, "!Sample_contact_city")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleContactCity != null) {
-						infoList.get(i).sampleContactCity = infoList.get(i).sampleContactCity
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleContactCity = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleContactCity = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleContactCity);
 				}
 			} else if (equalsSplit(line, "!Sample_contact_state")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleContactState != null) {
-						infoList.get(i).sampleContactState = infoList.get(i).sampleContactState
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleContactState = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleContactState = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleContactState);
 				}
 			} else if (equalsSplit(line, "!Sample_contact_zip/postal_code")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleContactPostalCode != null) {
-						infoList.get(i).sampleContactPostalCode = infoList
-								.get(i).sampleContactPostalCode
-								+ "\n"
-								+ formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleContactPostalCode = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleContactPostalCode = checkLol(
+							infoList, i, temp[i + 1],
+							infoList.get(i).sampleContactPostalCode);
 				}
 			} else if (equalsSplit(line, "!Sample_instrument_model")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleInstrumentModel != null) {
-						infoList.get(i).sampleInstrumentModel = infoList.get(i).sampleInstrumentModel
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleInstrumentModel = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleInstrumentModel = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleInstrumentModel);
 				}
 			} else if (equalsSplit(line, "!Sample_library_selection")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleLibrarySelection != null) {
-						infoList.get(i).sampleLibrarySelection = infoList
-								.get(i).sampleLibrarySelection
-								+ "\n"
-								+ formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleLibrarySelection = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleLibrarySelection = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleLibrarySelection);
 				}
 			} else if (equalsSplit(line, "!Sample_library_source")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleLibrarySource != null) {
-						infoList.get(i).sampleLibrarySource = infoList.get(i).sampleLibrarySource
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleLibrarySource = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleLibrarySource = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleLibrarySource);
 				}
 			} else if (equalsSplit(line, "!Sample_library_strategy")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleLibraryStrategy != null) {
-						infoList.get(i).sampleLibraryStrategy = infoList.get(i).sampleLibraryStrategy
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleLibraryStrategy = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleLibraryStrategy = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleLibraryStrategy);
 				}
 			} else if (equalsSplit(line, "!Sample_relation")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleRelation != null) {
-						infoList.get(i).sampleRelation = infoList.get(i).sampleRelation
-								+ "\n" + formatString(temp[i + 1]);
-
-					} else {
-						infoList.get(i).sampleRelation = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleRelation = checkLol(infoList, i,
+							temp[i + 1], infoList.get(i).sampleRelation);
 				}
 			} else if (equalsSplit(line, "!Sample_data_processing")) {
 				String[] temp = addNewGEOFile(infoList, line);
 
 				for (int i = 0; i < infoList.size(); i++) {
-					if (infoList.get(i).sampleDataProcessing != null) {
-						infoList.get(i).sampleDataProcessing = infoList.get(i).sampleDataProcessing
-								+ "\n" + formatString(temp[i + 1]);
-					} else {
-						infoList.get(i).sampleDataProcessing = formatString(temp[i + 1]);
-					}
+					infoList.get(i).sampleDataProcessing = checkLol(infoList,
+							i, temp[i + 1],
+							infoList.get(i).sampleDataProcessing);
 				}
 			} else if (equalsSplit(line, "!series_matrix_table_begin")) {
 				// Read the next line in the file,
@@ -578,11 +456,22 @@ public class TXTParser {
 		return infoList;
 	}
 
+	private static String checkLol(ArrayList<GEOFileTuple> infoList, int i,
+			String temp, String var) throws IOException {
+		/*
+		 * If there already is a string, add a newline and then add the new
+		 * string
+		 */
+		if (var != null) {
+			return var + "\n" + formatString(temp);
+		} else {
+			return formatString(temp);
+		}
+	}
+
 	private static String[] addNewGEOFile(ArrayList<GEOFileTuple> infoList,
 			String line) throws IOException {
-		/*
-		 * If a there is more files than GEOFileTuple, add a new GEOFileTuple
-		 */
+		// If a there is more files than GEOFileTuple, add a new GEOFileTuple
 		String[] temp = addString(infoList, line);
 		while (temp.length - 1 > infoList.size()) {
 			infoList.add(new GEOFileTuple());

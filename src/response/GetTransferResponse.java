@@ -1,17 +1,24 @@
 package response;
 
+import java.io.FileInputStream;
+
 public class GetTransferResponse extends Response {
 
-	String fileAsString;
+	FileInputStream fileInputStream;
+	long fileSize;
 
-	public GetTransferResponse(String fileAsString) {
+	public GetTransferResponse(FileInputStream fileInputStream, long fileSize) {
 		code = 200;
-		this.fileAsString = fileAsString;
+		this.fileInputStream = fileInputStream;
+		this.fileSize = fileSize;
 	}
 
-	@Override
-	public String getBody() {
-		return fileAsString;
+	public FileInputStream getFileBody() {
+		return fileInputStream;
+	}
+
+	public long getFileSize() {
+		return fileSize;
 	}
 
 }
