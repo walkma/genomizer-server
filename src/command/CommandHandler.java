@@ -161,10 +161,10 @@ public class CommandHandler {
 
 		} else if (cmdt == CommandType.GET_TRANSFER_COMMAND) {
 
-			newCommand = cmdFactory.createGetTransferCommand(restful);
+			newCommand = cmdFactory.createGetTransferCommand(parsedRest);
 
 		} else if (cmdt == CommandType.POST_TRANSFER_COMMAND) {
-			newCommand = cmdFactory.createPostTransferCommand(json);
+			newCommand = cmdFactory.createPostTransferCommand(json, parsedRest);
 		} else if (cmdt == CommandType.GET_GEO_ID) {
 			newCommand = cmdFactory.createSearchGEO(json);
 		}

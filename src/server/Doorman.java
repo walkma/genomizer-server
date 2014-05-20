@@ -1,5 +1,13 @@
 package server;
 
+<<<<<<< HEAD
+=======
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+>>>>>>> branch 'master' of ssh://git@github.com:22/walkma/genomizer-server.git
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -7,7 +15,6 @@ import java.net.InetSocketAddress;
 import java.util.Scanner;
 import java.util.concurrent.Executor;
 
-import response.GetTransferResponse;
 import response.MinimalResponse;
 import response.Response;
 import response.StatusCode;
@@ -83,6 +90,8 @@ public class Doorman {
 						break;
 					case "/transfer":
 						exchange(exchange, CommandType.GET_TRANSFER_COMMAND);
+//						GetTransferCommand getTransferCommand = new GetTransferCommand(exchange);
+//						getTransferCommand.execute();
 						break;
 					}
 					break;
@@ -132,6 +141,8 @@ public class Doorman {
 						break;
 					case "/transfer":
 						exchange(exchange, CommandType.POST_TRANSFER_COMMAND);
+//						PostTransferCommand postTransferCommand = new PostTransferCommand(exchange);
+//						postTransferCommand.execute();
 						break;
 					case "/geo":
 						System.out.println("GEO!");
@@ -207,8 +218,13 @@ public class Doorman {
 			System.out.println("FOUND LOGIN COMMAND.");
 		}
 		if(type == CommandType.POST_TRANSFER_COMMAND) {
+<<<<<<< HEAD
 			TransferData uploadData = new TransferData();
 			body = uploadData.parseFileFromBody(bodyStream, exchange);
+=======
+			body = getBinaryDataAsString(bodyStream, exchange);
+
+>>>>>>> branch 'master' of ssh://git@github.com:22/walkma/genomizer-server.git
 		} else {
 			while(scanner.hasNext()) {
 				body = body.concat(" " + scanner.next());
@@ -251,7 +267,14 @@ public class Doorman {
 
 		} else {
 
+<<<<<<< HEAD
+=======
+			body = response.getBody();
+			exchange.sendResponseHeaders(response.getCode(), body.getBytes().length);
+
+>>>>>>> branch 'master' of ssh://git@github.com:22/walkma/genomizer-server.git
 			OutputStream os = exchange.getResponseBody();
+<<<<<<< HEAD
 
 			if(response instanceof GetTransferResponse) {
 				exchange.sendResponseHeaders(response.getCode(), ((GetTransferResponse)response).getFileSize());
@@ -263,11 +286,95 @@ public class Doorman {
 				body = response.getBody();
 				os.write(body.getBytes());
 			}
+=======
+			os.write(body.getBytes());
+>>>>>>> branch 'master' of ssh://git@github.com:22/walkma/genomizer-server.git
 			os.flush();
 			os.close();
-
-
 		}
 		System.out.println("END OF EXCHANGE\n------------------");
+<<<<<<< HEAD
+=======
+	}
+
+	private String getBinaryDataAsString(InputStream inputStream, HttpExchange exchange) {
+		//String length= exchange.getRequestHeaders().getFirst("length");
+		String length = exchange.getRequestHeaders().getFirst("Content-length");
+		String boundary = exchange.getRequestHeaders().getFirst("Boundary");
+		System.out.println("boundary22: " + boundary);
+		//String length = params.get(" Content-length");
+		//System.out.println("lenght = " + length);
+		BufferedInputStream bis = new BufferedInputStream(inputStream);
+		System.out.println("length = " + length);
+
+		String body = null;
+
+		//int len = Integer.parseInt(length);
+
+		byte[] byteRead = new byte[1];
+		byte[] byteArr = new byte[1024];
+		byte[] fileArr = null;// new byte[len];
+		int bytesRead = 0;
+
+		int i = 0;
+		int nrOfBytes = 0;
+
+		boolean first = true;
+
+		try {
+			while((bytesRead = bis.read(byteRead, 0, 1)) != -1) {
+				if(byteRead[0] == '\r') {
+
+
+					String line = new String(byteArr);
+					byteArr = new byte[1024];
+
+					System.out.println("string2: " + line);
+
+					if(line.indexOf("Content-") == -1 && !first) {
+						i = 0;
+						System.out.println("string: " + line);
+						bis.read(byteRead, 0, 1);
+
+						int len = Integer.parseInt(length) - nrOfBytes;
+						System.out.println("nrofbytes: " + nrOfBytes);
+						System.out.println("length11 = " + len);
+						fileArr = new byte[len];
+
+						for(int k = 0; k < len; k++) {
+							bis.read(byteRead, 0, 1);
+							fileArr[k] = byteRead[0];
+						}
+
+						//System.out.println("file: " + new String(fileArr));
+						break;
+					} else {
+						if(first) {
+							System.out.println("boundary length = " + i);
+							System.out.println("string calculated: " + line);
+							nrOfBytes += (nrOfBytes + 4 * 2 + 1);
+						}
+						i = 0;
+						first = false;
+					}
+				} else {
+					byteArr[i++] = byteRead[0];
+					nrOfBytes++;
+				}
+			}
+
+			File file = new File("/home/c11/c11vlg/Downloads/uploadTest.txt");
+
+			FileOutputStream fos = new FileOutputStream(file);
+			fos.write(fileArr);
+			fos.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return "hej";
+>>>>>>> branch 'master' of ssh://git@github.com:22/walkma/genomizer-server.git
 	}
 }
