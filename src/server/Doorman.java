@@ -46,8 +46,7 @@ public class Doorman {
 		httpServer.createContext("/process", createHandler());
 		httpServer.createContext("/sysadm", createHandler());
 		httpServer.createContext("/geo", createHandler());
-//		HttpContext context = httpServer.createContext("/transfer", createHandler());
-		//context.getFilters().add(new ParameterFilter());
+		httpServer.createContext("/transfer", createHandler());
 
 		httpServer.setExecutor(new Executor() {
 			@Override
@@ -219,86 +218,12 @@ public class Doorman {
 			System.out.println("FOUND LOGIN COMMAND.");
 		}
 		if(type == CommandType.POST_TRANSFER_COMMAND) {
-			//String length= exchange.getRequestHeaders().getFirst("length");
-			String length = exchange.getRequestHeaders().getFirst("Content-length");
-			//String length = params.get("Content-length");
-			//System.out.println("lenght = " + length);
-			BufferedInputStream bis = new BufferedInputStream(bodyStream);
-			System.out.println("length = " + length);
-
-			//int len = Integer.parseInt(length);
-
-			byte[] byteRead = new byte[1];
-			byte[] byteArr = new byte[1024];
-			byte[] fileArr = null;// new byte[len];
-			int bytesRead = 0;
-
-			int i = 0;
-			int nrOfBytes = 0;
-
-			boolean first = true;
-
-			try {
-				while((bytesRead = bis.read(byteRead, 0, 1)) != -1) {
-					if(byteRead[0] == '\r') {
-
-
-						String line = new String(byteArr);
-						byteArr = new byte[1024];
-
-						System.out.println("string2: " + line);
-
-						if(line.indexOf("Content-") == -1 && !first) {
-							i = 0;
-							System.out.println("string: " + line);
-							bis.read(byteRead, 0, 1);
-
-							int len = Integer.parseInt(length) - nrOfBytes;
-							System.out.println("nrofbytes: " + nrOfBytes);
-							System.out.println("length11 = " + len);
-							fileArr = new byte[len];
-
-							for(int k = 0; k < len; k++) {
-								bis.read(byteRead, 0, 1);
-								fileArr[k] = byteRead[0];
-							}
-
-							//System.out.println("file: " + new String(fileArr));
-							break;
-						} else {
-							if(first) {
-								System.out.println("boundary length = " + i);
-								System.out.println("string calculated: " + line);
-								nrOfBytes += (nrOfBytes + 4 * 2 + 1);
-							}
-							i = 0;
-							first = false;
-						}
-					} else {
-						byteArr[i++] = byteRead[0];
-						nrOfBytes++;
-					}
-				}
-
-				File file = new File("/home/c11/c11vlg/Downloads/uploadTest.txt");
-
-				FileOutputStream fos = new FileOutputStream(file);
-				fos.write(fileArr);
-				fos.close();
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			body = getBinaryDataAsString(bodyStream, exchange);
 
 		} else {
 			while(scanner.hasNext()) {
 				body = body.concat(" " + scanner.next());
 			}
-		}
-
-		while(scanner.hasNext()) {
-			body = body.concat(" " + scanner.next());
 		}
 		scanner.close();
 
@@ -347,5 +272,85 @@ public class Doorman {
 			os.close();
 		}
 		System.out.println("END OF EXCHANGE\n------------------");
+	}
+
+	private String getBinaryDataAsString(InputStream inputStream, HttpExchange exchange) {
+		//String length= exchange.getRequestHeaders().getFirst("length");
+		String length = exchange.getRequestHeaders().getFirst("Content-length");
+		String boundary = exchange.getRequestHeaders().getFirst("Boundary");
+		System.out.println("boundary22: " + boundary);
+		//String length = params.get(" Content-length");
+		//System.out.println("lenght = " + length);
+		BufferedInputStream bis = new BufferedInputStream(inputStream);
+		System.out.println("length = " + length);
+
+		String body = null;
+
+		//int len = Integer.parseInt(length);
+
+		byte[] byteRead = new byte[1];
+		byte[] byteArr = new byte[1024];
+		byte[] fileArr = null;// new byte[len];
+		int bytesRead = 0;
+
+		int i = 0;
+		int nrOfBytes = 0;
+
+		boolean first = true;
+
+		try {
+			while((bytesRead = bis.read(byteRead, 0, 1)) != -1) {
+				if(byteRead[0] == '\r') {
+
+
+					String line = new String(byteArr);
+					byteArr = new byte[1024];
+
+					System.out.println("string2: " + line);
+
+					if(line.indexOf("Content-") == -1 && !first) {
+						i = 0;
+						System.out.println("string: " + line);
+						bis.read(byteRead, 0, 1);
+
+						int len = Integer.parseInt(length) - nrOfBytes;
+						System.out.println("nrofbytes: " + nrOfBytes);
+						System.out.println("length11 = " + len);
+						fileArr = new byte[len];
+
+						for(int k = 0; k < len; k++) {
+							bis.read(byteRead, 0, 1);
+							fileArr[k] = byteRead[0];
+						}
+
+						//System.out.println("file: " + new String(fileArr));
+						break;
+					} else {
+						if(first) {
+							System.out.println("boundary length = " + i);
+							System.out.println("string calculated: " + line);
+							nrOfBytes += (nrOfBytes + 4 * 2 + 1);
+						}
+						i = 0;
+						first = false;
+					}
+				} else {
+					byteArr[i++] = byteRead[0];
+					nrOfBytes++;
+				}
+			}
+
+			File file = new File("/home/c11/c11vlg/Downloads/uploadTest.txt");
+
+			FileOutputStream fos = new FileOutputStream(file);
+			fos.write(fileArr);
+			fos.close();
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return "hej";
 	}
 }
