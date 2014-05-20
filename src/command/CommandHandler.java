@@ -161,7 +161,7 @@ public class CommandHandler {
 
 		} else if (cmdt == CommandType.GET_TRANSFER_COMMAND) {
 
-			newCommand = cmdFactory.createGetTransferCommand(parsedRest);
+			newCommand = cmdFactory.createGetTransferCommand(restful);
 
 		} else if (cmdt == CommandType.POST_TRANSFER_COMMAND) {
 			newCommand = cmdFactory.createPostTransferCommand(json);

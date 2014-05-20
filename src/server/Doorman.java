@@ -244,7 +244,6 @@ public class Doorman {
 
 		} else {
 			body = response.getBody();
-			exchange.sendResponseHeaders(response.getCode(), body.getBytes().length);
 
 			OutputStream os = exchange.getResponseBody();
 
@@ -253,9 +252,7 @@ public class Doorman {
 				TransferData transferData = new TransferData();
 				transferData.sendFile(((GetTransferResponse)response).getFileBody(), os);
 			} else {
-				body = response.getBody();
 				exchange.sendResponseHeaders(response.getCode(), body.getBytes().length);
-				body = response.getBody();
 				os.write(body.getBytes());
 			}
 

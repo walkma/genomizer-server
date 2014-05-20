@@ -289,11 +289,12 @@ public class CommandFactory {
 	}
 
 	public Command createGetTransferCommand(String restful) {
+		System.out.println("restful: " + restful);
 		return new GetTransferCommand(restful.split("=")[1]);
-
 	}
 
 	public Command createPostTransferCommand(String json) {
+		System.out.println("json: " + json);
 		return new PostTransferCommand(json);
 	}
 
