@@ -11,6 +11,7 @@ import response.GetTransferResponse;
 import response.MinimalResponse;
 import response.Response;
 import response.StatusCode;
+import transfer.TransferData;
 import authentication.Authenticate;
 
 import com.sun.net.httpserver.HttpExchange;

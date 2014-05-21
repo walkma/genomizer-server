@@ -2,6 +2,11 @@ package response;
 
 import java.io.FileInputStream;
 
+/**
+ * A response containing filesize and and a fileinputstream for a file.
+ * @author c11vlg
+ *
+ */
 public class GetTransferResponse extends Response {
 
 	FileInputStream fileInputStream;

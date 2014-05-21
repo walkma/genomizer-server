@@ -1,4 +1,4 @@
-package server;
+package transfer;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -49,7 +49,9 @@ public class TransferData {
 		}
 
 		try {
+			//Start reading the content of the body
 			while(bis.read(byteRead, 0, 1) != -1) {
+				//New line in the body
 				if(byteRead[0] == '\r') {
 
 					String line = new String(byteArr);
@@ -59,12 +61,15 @@ public class TransferData {
 						i = 0;
 						bis.read(byteRead, 0, 1);
 
+						//Calculates the size of the actual data in the body.
 						int len = Integer.parseInt(length) - nrOfBytes;
 
 						int bytes = 4096;
 						fileArr = new byte[bytes];
 
+						//Start writing data to the file
 						while(len > 0) {;
+							//As long as there are 'bytes' number of bytes left to read
 							if(len > bytes) {
 								fileArr = new byte[bytes];
 								int temp = 0;
@@ -74,7 +79,7 @@ public class TransferData {
 									tempBytes -= temp;
 								}
 								len -= bytes;
-
+							//When there are less than 'bytes' number of bytes left to read.
 							} else {
 								fileArr = new byte[len];
 								bis.read(fileArr, 0, len);
@@ -97,6 +102,8 @@ public class TransferData {
 						fos.close();
 						break;
 					} else {
+						//First line is the Boundary string, saves the size
+						//of this string in nrOfBytes + the last boundary string
 						if(first) {
 							nrOfBytes += (nrOfBytes + 8);
 						}
@@ -104,13 +111,12 @@ public class TransferData {
 						first = false;
 						nrOfBytes++;
 					}
+				//Reads the first lines in the body byte for byte.
 				} else {
 					byteArr[i++] = byteRead[0];
 					nrOfBytes++;
 				}
 			}
-
-			body = new String(fileArr);
 
 		} catch (IOException e) {
 			body = "400";
@@ -122,6 +128,12 @@ public class TransferData {
 		return body;
 	}
 
+	/**
+	 * Sends the data in the fileinputstream to the outputstream
+	 * @param fis A FileInputStream that contains the file requested by the client.
+	 * @param os An OutputStream to the client.
+	 * @throws IOException
+	 */
 	public void sendFile(FileInputStream fis, OutputStream os) throws IOException {
 		if(fis != null) {
 			byte[] buffer = new byte[1024];

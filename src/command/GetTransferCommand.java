@@ -7,6 +7,11 @@ import java.io.FileNotFoundException;
 import response.GetTransferResponse;
 import response.Response;
 
+/**
+ * Command that generates a fileinputstream from a file path.
+ * @author c11vlg
+ *
+ */
 public class GetTransferCommand extends Command {
 
 	private String filePath;
