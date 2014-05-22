@@ -84,13 +84,15 @@ public class GEOFileDownloader {
 			String fileName) throws IOException, InterruptedException {
 		URL urlObject = new URL(url);
 		File f = new File(filePath);
-//		f.mkdirs();
+		// Create the file
 		f.createNewFile();
+		// Download the file directly to the file
 		ReadableByteChannel rbc = Channels.newChannel(urlObject.openStream());
 		FileOutputStream fos = new FileOutputStream(filePath);
 		fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
 		fos.close();
 
+		// Try to convert the .sra file to a .fastq file with SRA-Toolkit
 		Process p = Runtime.getRuntime().exec(
 				"fastq-dump " + filePath + " -O " + filePath);
 		p.waitFor();
