@@ -290,6 +290,7 @@ public class CommandFactory {
 
 	public Command createGetTransferCommand(String restful) {
 		System.out.println("restful: " + restful);
+		//TODO: Not safe, throws arrayoutofbounds if string doesnt contain =
 		return new GetTransferCommand(restful.split("=")[1]);
 	}
 
