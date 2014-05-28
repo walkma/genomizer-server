@@ -2,7 +2,7 @@ package response;
 
 /**
  * Response containing a response code.
- * @author c11vlg
+ * @author c11vlg, dv12ahn
  *
  */
 public class PostTransferResponse extends Response{
