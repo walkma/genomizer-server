@@ -9,7 +9,7 @@ import response.Response;
 
 /**
  * Command that generates a fileinputstream from a file path.
- * @author c11vlg
+ * @author c11vlg, dv12ahn
  *
  */
 public class GetTransferCommand extends Command {
