@@ -5,7 +5,7 @@ import response.Response;
 
 /**
  * Command that generates a response from a given string.
- * @author c11vlg
+ * @author c11vlg, dv12ahn
  *
  */
 public class PostTransferCommand extends Command {
